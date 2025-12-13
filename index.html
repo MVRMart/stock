@@ -1,79 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Items List</title>
+  <title>MVR Market</title>
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: #f5f5f5;
-  }
-  .item {
-    background: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  .item img {
-    max-width: 100%;
-    border-radius: 5px;
-  }
-  .price {
-    color: #2e7d32;
-    font-size: 18px;
-    font-weight: bold;
-  }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    /* Banner */
     .banner {
-  background: linear-gradient(90deg, #1e88e5, #43a047);
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-.banner h1 {
-  margin: 0;
-  font-size: 28px;
-}
-.banner p {
-  margin: 5px 0 0;
-  font-size: 16px;
+      background: linear-gradient(90deg, #1e88e5, #43a047);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
-  
+    .banner h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .banner p {
+      margin: 5px 0 0;
+      font-size: 16px;
+    }
+
+    /* Scrolling message */
+    marquee {
+      background:#ffeb3b; 
+      color:#000; 
+      padding:10px; 
+      border-radius:5px; 
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* Product grid container */
+    .products {
+      display: grid;
+      grid-template-columns: 1fr; /* single column by default */
+      gap: 15px; /* spacing between items */
+    }
+
+    @media screen and (min-width: 600px) {
+      .products {
+        grid-template-columns: 1fr 1fr; /* 2 items per row on larger screens */
+      }
+    }
+
+    /* Product cards */
+    .item {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+    }
     .item img {
-  width: 200px;      /* sets all images to same width */
-  height: 200px;     /* sets all images to same height */
-  object-fit: cover; /* crops/resizes without stretching */
-  border-radius: 5px;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
     }
+    .price {
+      color: #2e7d32;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    /* Footer */
+    footer {
+      text-align:center;
+      padding:15px;
+      background:#1e88e5;
+      color:white;
+      border-radius:5px;
+      margin-top:15px;
+    }
+
   </style>
 </head>
 <body>
-  <div class="banner">
-  <h1>MVR Market</h1>
-  <p>Quality You Trust, Prices You Love</p>
+
+  <div class="container">
+
+    <!-- Banner -->
+    <div class="banner">
+      <h1>MVR Market</h1>
+      <p>Quality You Trust, Prices You Love</p>
+    </div>
+
+    <!-- Scrolling Message -->
+    <marquee>🎉 Flat 10% off on all products! Limited Time Offer! 🎉</marquee>
+
+    <!-- Products -->
+    <div class="products">
+
+      <div class="item">
+        <h2>Item 1</h2>
+        <img src="images/ms_6y0zi_512_546541773.jpg">
+        <p>Reusable diapers at low cost compared to other platforms, compare and buy now!</p>
+        <p class="price">₹499</p>
+      </div>
+
+      <div class="item">
+        <h2>Item 2</h2>
+        <img src="images/Shirt.jpg">
+        <p>Durable and long-lasting product, nice shirt!</p>
+        <p class="price">₹799</p>
+      </div>
+
+      <div class="item" style="background:#fff3e0; color:#e65100;">
+        <h2>More Products Coming Soon!</h2>
+        <p>Stay tuned for exciting new items. Check back later for amazing deals!</p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      © 2025 MVR Market. All Rights Reserved.
+    </footer>
+
   </div>
 
-<h1>Available Items</h1>
-  <marquee style="background:#ffeb3b; color:#000; padding:10px; border-radius:5px;">
-🎉 Flat 10% off on all products! Limited Time Offer! 🎉
-  </marquee>
-<div class="item">
-  <h2>Item 1</h2>
-  <img src="images/ms_6y0zi_512_546541773.jpg" width="200">
-  <p>Reusable diaphers at low cost compared to other platforms, compare and buy now!</p>
-  <p class="price">₹499</p>
-</div>
-
-  <div class="item">
-  <h2>Item 2</h2>
-  <img src="images/Shirt.jpg">
-  <p>Durable and long-lasting product, nice shirt!</p>
-  <p class="price">₹799</p>
-  </div>
-<footer style="text-align:center; padding:15px; background:#1e88e5; color:white; border-radius:5px; margin-top:20px;">
-  © 2025 MVR Market. All Rights Reserved.
-</footer>
 </body>
 </html>
