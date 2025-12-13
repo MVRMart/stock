@@ -50,13 +50,13 @@
     /* Product grid container */
     .products {
       display: grid;
-      grid-template-columns: 1fr; /* single column by default */
-      gap: 15px; /* spacing between items */
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
 
     @media screen and (min-width: 600px) {
       .products {
-        grid-template-columns: 1fr 1fr; /* 2 items per row on larger screens */
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -79,6 +79,14 @@
       font-size: 18px;
       font-weight: bold;
       margin-top: 5px;
+    }
+
+    /* Legal / Privacy */
+    .legal {
+      font-size: 12px;
+      color: #555;
+      margin-top: 20px;
+      text-align: center;
     }
 
     /* Footer */
@@ -110,16 +118,20 @@
     <div class="products">
 
       <div class="item">
-        <h2>Item 1</h2>
-        <img src="images/ms_6y0zi_512_546541773.jpg">
-        <p>Reusable diapers at low cost compared to other platforms, compare and buy now!</p>
+        <h2>Reusable Diapers</h2>
+        <a href="images/ms_6y0zi_512_546541773.jpg" target="_blank">
+          <img src="images/ms_6y0zi_512_546541773.jpg">
+        </a>
+        <p>Eco-friendly, reusable diapers designed for comfort and savings. Compare prices with other platforms and make a smart purchase!</p>
         <p class="price">₹499</p>
       </div>
 
       <div class="item">
-        <h2>Item 2</h2>
-        <img src="images/Shirt.jpg">
-        <p>Durable and long-lasting product, nice shirt!</p>
+        <h2>Men's Shirt</h2>
+        <a href="images/Shirt.jpg" target="_blank">
+          <img src="images/Shirt.jpg">
+        </a>
+        <p>Durable and long-lasting shirt, stylish and comfortable for everyday use.</p>
         <p class="price">₹799</p>
       </div>
 
@@ -130,6 +142,11 @@
 
     </div>
 
+    <!-- Privacy / Legal -->
+    <div class="legal">
+      <p>Disclaimer: MVR Market is an independent marketplace. Product images and descriptions are for informational purposes. We do not collect personal data on this website. Prices and offers are subject to change.</p>
+    </div>
+
     <!-- Footer -->
     <footer>
       © 2025 MVR Market. All Rights Reserved.
@@ -138,4 +155,4 @@
   </div>
 
 </body>
-</html>
+  </html>
