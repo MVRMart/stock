@@ -32,6 +32,8 @@ header{
   text-align:center;
   padding:25px 15px;
 }
+header h1{margin:0;font-size:28px}
+header p{margin-top:6px;font-size:14px;opacity:.95}
 
 /* Layout */
 .container{
@@ -53,6 +55,19 @@ header{
   border-radius:14px;
   box-shadow:0 6px 16px rgba(0,0,0,.1);
   margin-bottom:25px;
+}
+
+.pincode-box input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.pincode-msg{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:bold;
 }
 
 /* Products grid */
@@ -153,14 +168,14 @@ footer{
 
 <header>
   <h1>MVR Market</h1>
-  <p>Lowest Prices • Best Quality • Cash on Delivery</p>
+  <p>Lowest Prices • Best Quality • Cash on Delivery<br>తక్కువ ధరలు • ఉత్తమ నాణ్యత • Cash on Delivery</p>
 </header>
 
 <div class="container">
 
 <!-- PINCODE -->
 <div class="pincode-box">
-  <strong>Enter Delivery Pincode</strong>
+  <strong>Please enter pincode to check available items and place order<br>సరఫరా పొందగలిగే వస్తువులను చూడటానికి మరియు ఆర్డర్ ఇవ్వటానికి పిన్‌కోడ్ నమోదు చేయండి</strong>
   <input type="number" id="pincode" placeholder="Enter pincode" oninput="checkPincode()">
   <div id="pincodeMsg"></div>
 </div>
@@ -173,7 +188,7 @@ footer{
   <img src="images/Sugar.jpeg">
   <p class="price">₹40 per kg</p>
   <select id="sugarQty"><option>1</option><option>2</option><option>3</option></select>
-  <button onclick="addItem('Sugar / చక్కెర',40,sugarQty.value)">Add to Cart</button>
+  <button class="addBtn" onclick="addItem('Sugar / చక్కెర',40,sugarQty.value)">Add to Cart</button>
 </div>
 
 <div class="item">
@@ -181,7 +196,7 @@ footer{
   <img src="images/ms_6y0zi_512_546541773.jpg">
   <p class="price">₹499 per set</p>
   <select id="diaperQty"><option>1</option><option>2</option></select>
-  <button onclick="addItem('Reusable Diapers / పునర్వినియోగ డయాపర్స్',499,diaperQty.value)">Add to Cart</button>
+  <button class="addBtn" onclick="addItem('Reusable Diapers / పునర్వినియోగ డయాపర్స్',499,diaperQty.value)">Add to Cart</button>
 </div>
 
 <div class="item">
@@ -189,7 +204,7 @@ footer{
   <img src="images/Shirt.jpg">
   <p class="price">₹799</p>
   <select id="shirtQty"><option>1</option><option>2</option></select>
-  <button onclick="addItem('Men Shirt / పురుషుల చొక్కా',799,shirtQty.value)">Add to Cart</button>
+  <button class="addBtn" onclick="addItem('Men Shirt / పురుషుల చొక్కా',799,shirtQty.value)">Add to Cart</button>
 </div>
 
 <div class="item disabled">
@@ -207,8 +222,10 @@ footer{
   <p><strong>Total: ₹<span id="total">0</span></strong></p>
 
   <div class="note">
-    Orders are accepted only in serviceable areas.<br><br>
-    సేవలందిస్తున్న ప్రాంతాల్లో మాత్రమే ఆర్డర్లు తీసుకోబడతాయి.
+    Orders are accepted only in serviceable areas.<br>
+    Orders are processed via WhatsApp with Cash on Delivery available.<br>
+    సేవలందిస్తున్న ప్రాంతాల్లో మాత్రమే ఆర్డర్లు తీసుకోబడతాయి.<br>
+    WhatsApp ద్వారా ఆర్డర్లు Cash on Delivery తో ప్రాసెస్ చేయబడతాయి.
   </div>
 
   <button id="waBtn" class="disabled" onclick="shareWhatsApp()" style="background:#25D366;">
@@ -239,6 +256,10 @@ function checkPincode(){
     serviceAvailable = false;
     msg.innerHTML = "<span class='warn'>We are yet to serve in this area</span><br>ఈ ప్రాంతంలో సేవలు త్వరలో అందుబాటులోకి వస్తాయి";
     disableService();
+  }else{
+    serviceAvailable = false;
+    disableService();
+    msg.innerHTML = "";
   }
 }
 
@@ -246,38 +267,67 @@ function enableService(){
   document.getElementById("productArea").classList.remove("disabled");
   document.getElementById("cartBox").classList.remove("disabled");
   document.getElementById("waBtn").classList.remove("disabled");
+  document.querySelectorAll(".addBtn").forEach(b=>b.classList.remove("disabled"));
 }
 
 function disableService(){
   document.getElementById("productArea").classList.add("disabled");
   document.getElementById("cartBox").classList.add("disabled");
   document.getElementById("waBtn").classList.add("disabled");
+  document.querySelectorAll(".addBtn").forEach(b=>b.classList.add("disabled"));
 }
 
-function addItem(n,p,q){
-  if(!serviceAvailable)return;
-  q=parseInt(q);
-  let i=cart.find(x=>x.name===n);
-  if(i)i.qty+=q; else cart.push({name:n,price:p,qty:q});
+// Add to Cart only on button press
+function addItem(name, price, qty){
+  if(!serviceAvailable) return;
+  qty=parseInt(qty);
+  let item = cart.find(i => i.name===name);
+  if(item) item.qty+=qty; else cart.push({name,price,qty});
   renderCart();
 }
 
 function renderCart(){
-  let h="",t=0;
+  let html="",total=0;
   cart.forEach((i,idx)=>{
-    let a=i.price*i.qty; t+=a;
-    h+=`${i.name} × ${i.qty} = ₹${a}<br>`;
+    let amt=i.price*i.qty;
+    total+=amt;
+    html+=`
+      <div class="cart-item">
+        <strong>${i.name}</strong><br>
+        ₹${i.price} × ${i.qty} = ₹${amt}<br>
+        <button onclick="changeQty(${idx},1)">+</button>
+        <button onclick="changeQty(${idx},-1)">-</button>
+        <button onclick="removeItem(${idx})" style="background:#d32f2f;">Remove</button>
+      </div>`;
   });
-  document.getElementById("cartItems").innerHTML=h||"No items added";
-  document.getElementById("total").innerText=t;
+  document.getElementById("cartItems").innerHTML = html || "No items added";
+  document.getElementById("total").innerText = total;
   localStorage.setItem("mvrCart",JSON.stringify(cart));
 }
 
+function changeQty(idx,delta){
+  if(!serviceAvailable) return;
+  cart[idx].qty+=delta;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
+  renderCart();
+}
+
+function removeItem(idx){
+  if(!serviceAvailable) return;
+  cart.splice(idx,1);
+  renderCart();
+}
+
 function shareWhatsApp(){
-  if(!serviceAvailable || !cart.length)return;
+  if(!serviceAvailable || cart.length===0) return;
   let txt="Order from MVR Market:%0A";
-  cart.forEach((i,n)=>txt+=`${n+1}. ${i.name} × ${i.qty}%0A`);
-  txt+="Cash on Delivery available";
+  let total=0;
+  cart.forEach((i,n)=>{
+    let amt=i.price*i.qty;
+    total+=amt;
+    txt+=`${n+1}. ${i.name} × ${i.qty} = ₹${amt}%0A`;
+  });
+  txt+="%0ACash on Delivery available";
   window.open("https://wa.me/919876543210?text="+txt,"_blank");
 }
 
@@ -285,5 +335,5 @@ renderCart();
 </script>
 
 </body>
-</html>
+  </html>
                                               
