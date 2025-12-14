@@ -37,23 +37,9 @@ button:disabled{background:#ccc;cursor:not-allowed}
 
 footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
 
-/* VEHICLE TIMELINE */
-.timeline{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
-.stage{
-  flex:1;
-  text-align:center;
-  padding:10px;
-  border-bottom:4px solid #ccc;
-}
-.stage.active{
-  border-color:#2e7d32;
-  font-weight:bold;
-}
-.truck{font-size:24px}
+.timeline{display:flex;justify-content:space-between;margin-bottom:10px}
+.stage{flex:1;text-align:center;padding:10px;border-bottom:4px solid #ccc}
+.stage.active{border-color:#2e7d32;font-weight:bold}
 </style>
 </head>
 
@@ -75,7 +61,7 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <p id="pinMsg"></p>
 </div>
 
-<!-- VEHICLE STATUS -->
+<!-- VEHICLE -->
 <div class="box">
 <div class="timeline">
   <div class="stage" id="stage1">Collecting Orders</div>
@@ -91,9 +77,7 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <h3>Sugar / చక్కెర</h3>
 <img src="images/Sugar.jpeg" onclick="openImg(this.src)">
 <p class="price">₹40 per kg</p>
-<select id="sugarQty">
-<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-</select><br><br>
+<select id="sugarQty"><option>1</option><option>2</option><option>3</option></select><br><br>
 <button class="primary addBtn" onclick="addItem('Sugar/చక్కెర',40,sugarQty.value)" disabled>Add to Cart</button>
 </div>
 
@@ -101,9 +85,7 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <h3>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h3>
 <img src="images/ms_6y0zi_512_546541773.jpg" onclick="openImg(this.src)">
 <p class="price">₹499 per set</p>
-<select id="diaperQty">
-<option>1</option><option>2</option><option>3</option>
-</select><br><br>
+<select id="diaperQty"><option>1</option><option>2</option><option>3</option></select><br><br>
 <button class="primary addBtn" onclick="addItem('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499,diaperQty.value)" disabled>Add to Cart</button>
 </div>
 
@@ -111,9 +93,7 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <h3>Men Shirt / పురుషుల చొక్కా</h3>
 <img src="images/Shirt.jpg" onclick="openImg(this.src)">
 <p class="price">₹799 per shirt</p>
-<select id="shirtQty">
-<option>1</option><option>2</option><option>3</option>
-</select><br><br>
+<select id="shirtQty"><option>1</option><option>2</option><option>3</option></select><br><br>
 <button class="primary addBtn" onclick="addItem('Men Shirt/పురుషుల చొక్కా',799,shirtQty.value)" disabled>Add to Cart</button>
 </div>
 
@@ -127,7 +107,9 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <div class="cart">
 <h3>🛒 Cart</h3>
 <div id="cartItems">No items</div>
+
 <p>Subtotal: ₹<span id="subtotal">0</span></p>
+<p>Delivery Charge: ₹<span id="deliveryCharge">0</span></p>
 <p id="deliveryMsg"></p>
 <p><b>Total: ₹<span id="total">0</span></b></p>
 
@@ -142,84 +124,93 @@ Thank you for selecting items. Please place order via WhatsApp. Cash on Delivery
 </div>
 
 <footer>
-<p><b>Privacy Note:</b> This website does not collect online payments. Orders are placed via WhatsApp only. Personal data is not stored on any server.</p>
+<p><b>Privacy Note:</b> Orders are placed via WhatsApp only. No online payments are collected on this website.</p>
 <p>© 2025 MVR Market</p>
 </footer>
 
 <script>
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+const DELIVERY_CHARGE = 40;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let serviceable = false;
 
-function addItem(name,price,qty){
-qty=parseInt(qty);
-let i=cart.find(x=>x.name===name);
-i?i.qty+=qty:cart.push({name,price,qty});
-gtag('event','add_to_cart',{item:name});
-render();
+function addItem(name, price, qty) {
+  if (!serviceable) return;
+  qty = parseInt(qty);
+  let item = cart.find(i => i.name === name);
+  item ? item.qty += qty : cart.push({ name, price, qty });
+  render();
 }
 
-function changeQty(i,d){
-cart[i].qty+=d;
-if(cart[i].qty<=0)cart.splice(i,1);
-render();
+function changeQty(i, d) {
+  if (!serviceable) return;
+  cart[i].qty += d;
+  if (cart[i].qty <= 0) cart.splice(i, 1);
+  render();
 }
 
-function render(){
-let html="",sub=0;
-cart.forEach((i,n)=>{
-let amt=i.price*i.qty;sub+=amt;
-html+=`
-<div class="cart-item">
-<b>${i.name}</b><br>
-₹${i.price} × ${i.qty} = ₹${amt}<br>
-<button onclick="changeQty(${n},1)">+</button>
-<button onclick="changeQty(${n},-1)">-</button>
-</div>`;
-});
-cartItems.innerHTML=html||"No items";
-subtotal.innerText=sub;
-let del=sub>=1500?0:50;
-deliveryMsg.innerHTML=del?`<span class="warn">Add ₹${1500-sub} more for FREE delivery</span>`:`<span class="free">🎉 Free Delivery</span>`;
-total.innerText=sub+del;
-localStorage.setItem("cart",JSON.stringify(cart));
+function render() {
+  let html = "", sub = 0;
+  cart.forEach((i, n) => {
+    let amt = i.price * i.qty;
+    sub += amt;
+    html += `
+      <div class="cart-item">
+        <b>${i.name}</b><br>
+        ₹${i.price} × ${i.qty} = ₹${amt}<br>
+        <button onclick="changeQty(${n},1)" ${!serviceable?"disabled":""}>+</button>
+        <button onclick="changeQty(${n},-1)" ${!serviceable?"disabled":""}>-</button>
+      </div>`;
+  });
+
+  cartItems.innerHTML = html || "No items";
+  subtotal.innerText = sub;
+
+  let delivery = 0;
+  if (sub > 0 && sub < 1500) {
+    delivery = DELIVERY_CHARGE;
+    deliveryMsg.innerHTML = `<span class="warn">Add ₹${1500-sub} more for FREE delivery</span>`;
+  } else if (sub >= 1500) {
+    deliveryMsg.innerHTML = `<span class="free">🎉 Free Delivery</span>`;
+  } else {
+    deliveryMsg.innerHTML = "";
+  }
+
+  deliveryCharge.innerText = delivery;
+  total.innerText = sub + delivery;
+
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function shareWA(){
-let pin=pincode.value;
-gtag('event','whatsapp_order',{pincode:pin});
-let msg=`Order from MVR Market%0APincode: ${pin}%0A`;
-cart.forEach((i,n)=>msg+=`${n+1}. ${i.name} × ${i.qty} = ₹${i.price*i.qty}%0A`);
-window.open("https://wa.me/919876543210?text="+msg);
-}
+pincode.oninput = () => {
+  serviceable = pincode.value === "500086";
+  pinMsg.innerHTML = serviceable
+    ? "<span class='free'>Service available</span>"
+    : "<span class='warn'>We are yet to serve in this area</span>";
 
-pincode.oninput=()=>{
-gtag('event','pincode_entered',{pincode:pincode.value});
-let ok=pincode.value==="500086";
-pinMsg.innerHTML=ok?"<span class='free'>Service available</span>":"<span class='warn'>We are yet to serve in this area</span>";
-document.querySelectorAll(".addBtn").forEach(b=>b.disabled=!ok);
-waBtn.disabled=!ok;
+  document.querySelectorAll(".addBtn").forEach(b => b.disabled = !serviceable);
+  waBtn.disabled = !serviceable;
+  render();
 };
 
-function updateTruck(){
-let d=new Date(),day=d.getDay(),hr=d.getHours();
-stage1.classList.remove("active");
-stage2.classList.remove("active");
-stage3.classList.remove("active");
+function shareWA() {
+  if (!serviceable || cart.length === 0) return;
+  let msg = `Order from MVR Market%0APincode: ${pincode.value}%0A`;
+  cart.forEach((i,n)=>msg+=`${n+1}. ${i.name} × ${i.qty} = ₹${i.price*i.qty}%0A`);
+  window.open("https://wa.me/919876543210?text="+msg);
+}
 
-if((day>=1&&day<=5)||(day==6&&hr<13)){
-stage1.classList.add("active");
-stageMsg.innerHTML="🚚 Collecting orders. Please order by Saturday afternoon.";
-}else if((day==6&&hr>=13)||(day==0&&hr<22)){
-stage2.classList.add("active");
-stageMsg.innerHTML="🚛 Out for delivery. We still accept orders – order now to save big!";
-}else{
-stage3.classList.add("active");
-stageMsg.innerHTML="✅ All items are delivered.";
+function updateTruck(){
+  let d=new Date(),day=d.getDay(),hr=d.getHours();
+  stage1.classList.remove("active");stage2.classList.remove("active");stage3.classList.remove("active");
+  if((day>=1&&day<=5)||(day==6&&hr<13)){stage1.classList.add("active");stageMsg.innerText="🚚 Collecting orders. Order by Saturday afternoon.";}
+  else if((day==6&&hr>=13)||(day==0&&hr<22)){stage2.classList.add("active");stageMsg.innerText="🚛 Out for delivery. Orders still accepted.";}
+  else{stage3.classList.add("active");stageMsg.innerText="✅ All items delivered.";}
 }
-}
-updateTruck();render();
-function openImg(s){window.open(s)}
+
+updateTruck();
+render();
+function openImg(src){window.open(src);}
 </script>
 
 </body>
-                                                                    </html>
-                                            
+</html>                                          
