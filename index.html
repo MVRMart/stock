@@ -19,19 +19,41 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 header{background:#2e7d32;color:#fff;padding:15px;text-align:center}
 .container{padding:15px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
-.item,.cart,.box{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+
+.box,.item,.cart{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
 .item img{width:150px;border-radius:6px;cursor:pointer}
 .price{color:#2e7d32;font-weight:bold}
+
 button{padding:7px 12px;border:none;border-radius:6px;cursor:pointer}
 .primary{background:#1976d2;color:#fff}
 .whatsapp{background:#25D366;color:#fff}
-button:disabled{background:#ccc}
+button:disabled{background:#ccc;cursor:not-allowed}
+
 .note{background:#e3f2fd;padding:10px;border-radius:6px;font-size:14px}
 .free{color:green;font-weight:bold}
 .warn{color:#d32f2f;font-weight:bold}
-footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
+
 .cart-item{border-bottom:1px dashed #ccc;padding:8px 0}
-.cart-item button{margin:0 3px}
+
+footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
+
+/* VEHICLE TIMELINE */
+.timeline{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.stage{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  border-bottom:4px solid #ccc;
+}
+.stage.active{
+  border-color:#2e7d32;
+  font-weight:bold;
+}
+.truck{font-size:24px}
 </style>
 </head>
 
@@ -53,8 +75,15 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <p id="pinMsg"></p>
 </div>
 
-<!-- TRUCK -->
-<div class="box" id="truckBox"></div>
+<!-- VEHICLE STATUS -->
+<div class="box">
+<div class="timeline">
+  <div class="stage" id="stage1">Collecting Orders</div>
+  <div class="stage" id="stage2">Out for Delivery</div>
+  <div class="stage" id="stage3">Delivered</div>
+</div>
+<div id="stageMsg"></div>
+</div>
 
 <!-- ITEMS -->
 <div class="grid">
@@ -63,11 +92,9 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <img src="images/Sugar.jpeg" onclick="openImg(this.src)">
 <p class="price">₹40 per kg</p>
 <select id="sugarQty">
-<option value="1">1 kg</option><option value="2">2 kg</option>
-<option value="3">3 kg</option><option value="4">4 kg</option>
-<option value="5">5 kg</option>
+<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
 </select><br><br>
-<button class="primary" onclick="addItem('Sugar/చక్కెర',40,sugarQty.value)">Add to Cart</button>
+<button class="primary addBtn" onclick="addItem('Sugar/చక్కెర',40,sugarQty.value)" disabled>Add to Cart</button>
 </div>
 
 <div class="item">
@@ -75,9 +102,9 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <img src="images/ms_6y0zi_512_546541773.jpg" onclick="openImg(this.src)">
 <p class="price">₹499 per set</p>
 <select id="diaperQty">
-<option value="1">1 set</option><option value="2">2 sets</option><option value="3">3 sets</option>
+<option>1</option><option>2</option><option>3</option>
 </select><br><br>
-<button class="primary" onclick="addItem('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499,diaperQty.value)">Add to Cart</button>
+<button class="primary addBtn" onclick="addItem('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499,diaperQty.value)" disabled>Add to Cart</button>
 </div>
 
 <div class="item">
@@ -85,9 +112,9 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <img src="images/Shirt.jpg" onclick="openImg(this.src)">
 <p class="price">₹799 per shirt</p>
 <select id="shirtQty">
-<option value="1">1</option><option value="2">2</option><option value="3">3</option>
+<option>1</option><option>2</option><option>3</option>
 </select><br><br>
-<button class="primary" onclick="addItem('Men Shirt/పురుషుల చొక్కా',799,shirtQty.value)">Add to Cart</button>
+<button class="primary addBtn" onclick="addItem('Men Shirt/పురుషుల చొక్కా',799,shirtQty.value)" disabled>Add to Cart</button>
 </div>
 
 <div class="item">
@@ -114,15 +141,18 @@ Thank you for selecting items. Please place order via WhatsApp. Cash on Delivery
 
 </div>
 
-<footer>© 2025 MVR Market</footer>
+<footer>
+<p><b>Privacy Note:</b> This website does not collect online payments. Orders are placed via WhatsApp only. Personal data is not stored on any server.</p>
+<p>© 2025 MVR Market</p>
+</footer>
 
 <script>
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 function addItem(name,price,qty){
 qty=parseInt(qty);
-let item=cart.find(i=>i.name===name);
-item?item.qty+=qty:cart.push({name,price,qty});
+let i=cart.find(x=>x.name===name);
+i?i.qty+=qty:cart.push({name,price,qty});
 gtag('event','add_to_cart',{item:name});
 render();
 }
@@ -163,29 +193,33 @@ window.open("https://wa.me/919876543210?text="+msg);
 
 pincode.oninput=()=>{
 gtag('event','pincode_entered',{pincode:pincode.value});
-if(pincode.value==="500086"){
-pinMsg.innerHTML="<span class='free'>Service available</span>";
-waBtn.disabled=false;
-gtag('event','serviceable_area');
-}else{
-pinMsg.innerHTML="<span class='warn'>We are yet to serve in this area</span>";
-waBtn.disabled=true;
-}
+let ok=pincode.value==="500086";
+pinMsg.innerHTML=ok?"<span class='free'>Service available</span>":"<span class='warn'>We are yet to serve in this area</span>";
+document.querySelectorAll(".addBtn").forEach(b=>b.disabled=!ok);
+waBtn.disabled=!ok;
 };
 
-function truck(){
+function updateTruck(){
 let d=new Date(),day=d.getDay(),hr=d.getHours();
-if((day>=1&&day<=5)||(day==6&&hr<13))
-truckBox.innerHTML="🚚 <b>Collecting Orders</b><br>Order by Saturday afternoon for weekend delivery.";
-else if((day==6&&hr>=13)||(day==0&&hr<22))
-truckBox.innerHTML="🚛 <b>Out for Delivery</b><br>Still accepting orders – order now to save big!";
-else
-truckBox.innerHTML="✅ <b>Delivered</b><br>All items delivered.";
+stage1.classList.remove("active");
+stage2.classList.remove("active");
+stage3.classList.remove("active");
+
+if((day>=1&&day<=5)||(day==6&&hr<13)){
+stage1.classList.add("active");
+stageMsg.innerHTML="🚚 Collecting orders. Please order by Saturday afternoon.";
+}else if((day==6&&hr>=13)||(day==0&&hr<22)){
+stage2.classList.add("active");
+stageMsg.innerHTML="🚛 Out for delivery. We still accept orders – order now to save big!";
+}else{
+stage3.classList.add("active");
+stageMsg.innerHTML="✅ All items are delivered.";
 }
-truck();render();
+}
+updateTruck();render();
 function openImg(s){window.open(s)}
 </script>
 
 </body>
-</html>
+                                                                    </html>
                                             
