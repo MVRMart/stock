@@ -1,168 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>MVR Market</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVR Market</title>
 
-    /* Container */
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      padding: 20px;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+  }
 
-    /* Banner */
-    .banner {
-      background: linear-gradient(90deg, #1e88e5, #43a047);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-    .banner h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-    .banner p {
-      margin: 5px 0 0;
-      font-size: 16px;
-    }
+  header {
+    background: #2e7d32;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
 
-    /* Scrolling message */
-    marquee {
-      background:#ffeb3b; 
-      color:#000; 
-      padding:10px; 
-      border-radius:5px; 
-      margin-bottom: 20px;
-      display: block;
-    }
+  .container {
+    padding: 15px;
+  }
 
-    /* Product grid container */
-    .products {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
+  .item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
 
-    @media screen and (min-width: 600px) {
-      .products {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
+  .item img {
+    width: 150px;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
 
-    /* Product cards */
-    .item {
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-    .item img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-    .price {
-      color: #2e7d32;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 5px;
-    }
+  .price {
+    font-weight: bold;
+    color: #2e7d32;
+  }
 
-    /* Legal / Privacy */
-    .legal {
-      font-size: 12px;
-      color: #555;
-      margin-top: 20px;
-      text-align: center;
-    }
+  button {
+    padding: 10px 14px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
 
-    /* Footer */
-    footer {
-      text-align:center;
-      padding:15px;
-      background:#1e88e5;
-      color:white;
-      border-radius:5px;
-      margin-top:15px;
-    }
+  button:hover {
+    opacity: 0.9;
+  }
 
-  </style>
+  #cart {
+    background: #fff8e1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+
+  footer {
+    background: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  footer p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<header>
+  <h1>MVR Market</h1>
+  <p>Lowest Prices • Best Quality</p>
+</header>
 
-    <!-- Banner -->
-    <div class="banner">
-      <h1>MVR Market</h1>
-      <p>Quality You Trust, Prices You Love</p>
-    </div>
+<div class="container">
 
-    <!-- Scrolling Message -->
-    <marquee>🎉 Flat 10% off on all products! Limited Time Offer! 🎉</marquee>
-
-    <!-- Products -->
-    <div class="products">
-
-      <div class="item">
-        <h2>Reusable Diapers</h2>
-        <a href="images/ms_6y0zi_512_546541773.jpg" target="_blank">
-          <img src="images/ms_6y0zi_512_546541773.jpg">
-        </a>
-        <p>Eco-friendly, reusable diapers designed for comfort and savings. Compare prices with other platforms and make a smart purchase!</p>
-        <p class="price">₹499</p>
-      </div>
-
-      <div class="item">
-        <h2>Men's Shirt</h2>
-        <a href="images/Shirt.jpg" target="_blank">
-          <img src="images/Shirt.jpg">
-        </a>
-        <p>Durable and long-lasting shirt, stylish and comfortable for everyday use.</p>
-        <p class="price">₹799</p>
-      </div>
-      <div class="item">
-  <h2>Sugar/చక్కెర</h2> <!-- English / Telugu -->
-  <p>High-quality sugar at the best price. Purchase now!</p>
-  <p class="price">₹40 per kg</p>
-  <a href="https://wa.me/919876543210?text=I%20want%20to%20order%20Sugar%20from%20MVR%20Market" target="_blank">
-    <button style="background:#25D366; color:white; padding:10px 15px; border:none; border-radius:5px; cursor:pointer; margin-top:10px;">
-      Order via WhatsApp
-    </button>
-  </a>
-      </div>
-
-      <div class="item" style="background:#fff3e0; color:#e65100;">
-        <h2>More Products Coming Soon!</h2>
-        <p>Stay tuned for exciting new items. Check back later for amazing deals!</p>
-      </div>
-
-    </div>
-
-    <!-- Privacy / Legal -->
-    <div class="legal">
-      <p>Disclaimer: MVR Market is an independent marketplace. Product images and descriptions are for informational purposes. We do not collect personal data on this website. Prices and offers are subject to change.</p>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-      © 2025 MVR Market. All Rights Reserved.
-    </footer>
-
+  <!-- Sugar -->
+  <div class="item">
+    <h2>Sugar / చక్కెర</h2>
+    <img src="images/sugar.jpg" onclick="viewImage(this.src)">
+    <p>High-quality sugar at best market price.</p>
+    <p class="price">₹40 per kg</p>
+    <button onclick="addToCart('Sugar / చక్కెర', 40)">Buy Now</button>
   </div>
 
+  <!-- Diapers -->
+  <div class="item">
+    <h2>Reusable Diapers</h2>
+    <img src="images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
+    <p>Eco-friendly, reusable diapers. Comfortable and cost-effective.</p>
+    <p class="price">₹499</p>
+    <button onclick="addToCart('Reusable Diapers', 499)">Buy Now</button>
+  </div>
+
+  <!-- Shirt -->
+  <div class="item">
+    <h2>Men Shirt</h2>
+    <img src="images/Shirt.jpg" onclick="viewImage(this.src)">
+    <p>Durable, stylish and comfortable men’s shirt.</p>
+    <p class="price">₹799</p>
+    <button onclick="addToCart('Men Shirt', 799)">Buy Now</button>
+  </div>
+
+  <!-- Cart -->
+  <div id="cart">
+    <h3>Selected Items</h3>
+    <div id="cartItems">No items selected</div>
+    <p><strong>Total Amount: ₹<span id="total">0</span></strong></p>
+    <button onclick="shareWhatsApp()" style="background:#25D366;">
+      Share Order on WhatsApp
+    </button>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>MVR Market</strong></p>
+  <p>Lowest Prices • Best Quality</p>
+  <p>This website lists products only. Orders are placed directly via WhatsApp.</p>
+  <p>© 2025 MVR Market. All rights reserved.</p>
+</footer>
+
+<script>
+  let cart = [];
+  let total = 0;
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    total += price;
+    updateCart();
+  }
+
+  function updateCart() {
+    let cartDiv = document.getElementById("cartItems");
+    cartDiv.innerHTML = "";
+    cart.forEach((item, index) => {
+      cartDiv.innerHTML += (index + 1) + ". " + item.name + " - ₹" + item.price + "<br>";
+    });
+    document.getElementById("total").innerText = total;
+  }
+
+  function shareWhatsApp() {
+    if (cart.length === 0) {
+      alert("Please select items first");
+      return;
+    }
+
+    let message = "Order from MVR Market:%0A";
+    cart.forEach((item, i) => {
+      message += (i + 1) + ". " + item.name + " - ₹" + item.price + "%0A";
+    });
+    message += "%0ATotal Amount: ₹" + total;
+
+    window.open(
+      "https://wa.me/919876543210?text=" + message,
+      "_blank"
+    );
+  }
+
+  function viewImage(src) {
+    window.open(src, "_blank");
+  }
+</script>
+
 </body>
-  </html>
+</html>
