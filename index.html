@@ -8,20 +8,20 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM97TJNN5G"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DM97TJNN5G');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-DM97TJNN5G');
 </script>
 
 <style>
 body{margin:0;font-family:Arial;background:#f5f5f5}
-header{background:#2e7d32;color:#fff;padding:15px;text-align:center}
+header{background:#2e7d32;color:#fff;padding:16px;text-align:center}
 .container{padding:15px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 
 .item{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.item img{width:100%;max-height:180px;object-fit:contain;cursor:pointer}
+.item img{width:100%;height:160px;object-fit:contain;cursor:pointer}
 .price{font-weight:bold;color:#2e7d32}
 
 select,button,input{padding:6px;margin-top:6px;border-radius:6px}
@@ -32,13 +32,12 @@ button:disabled{background:#9e9e9e;cursor:not-allowed}
 .cart-item{border-bottom:1px dashed #ccc;padding-bottom:8px;margin-bottom:8px}
 
 .note{background:#e3f2fd;padding:10px;border-radius:6px;font-size:14px;margin-bottom:10px}
-
 footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
 
 .free{color:green;font-weight:bold}
 .warn{color:#d32f2f;font-weight:bold}
+.disabled{opacity:.5;pointer-events:none}
 .small{font-size:13px}
-.disabled{opacity:.5}
 </style>
 </head>
 
@@ -56,54 +55,44 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 <b>దయచేసి పిన్ కోడ్ ఎంటర్ చేసి, అందుబాటులో ఉన్న వస్తువులను తనిఖీ చేసి ఆర్డర్ చేయండి</b><br><br>
 
 <input type="number" id="pincode" placeholder="Enter pincode" oninput="checkPincode()">
-
 <p id="pinMsg" class="small"></p>
 
-<div class="grid" id="itemsSection" class="disabled">
+<div class="grid">
 
-<!-- Sugar -->
 <div class="item">
 <h3>Sugar / చక్కెర</h3>
 <img src="images/Sugar.jpeg" onclick="viewImage(this.src)">
 <p class="price">₹40 per kg</p>
-<select id="sugarQty">
+<select id="qSugar">
 <option value="1">1 kg</option><option value="2">2 kg</option>
 <option value="3">3 kg</option><option value="4">4 kg</option>
 <option value="5">5 kg</option>
 </select>
-<br>
-<button onclick="addItem('Sugar/చక్కెర',40,'sugarQty')" id="btnSugar" disabled>Add to Cart</button>
+<button id="bSugar" onclick="addItem('Sugar/చక్కెర',40,'qSugar')" disabled>Add to Cart</button>
 </div>
 
-<!-- Diapers -->
 <div class="item">
 <h3>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h3>
 <img src="images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
 <p class="price">₹499 per set</p>
-<select id="diaperQty">
-<option value="1">1 set</option>
-<option value="2">2 sets</option>
+<select id="qDiaper">
+<option value="1">1 set</option><option value="2">2 sets</option>
 <option value="3">3 sets</option>
 </select>
-<br>
-<button onclick="addItem('Reusable Diapers/డయాపర్స్',499,'diaperQty')" id="btnDiaper" disabled>Add to Cart</button>
+<button id="bDiaper" onclick="addItem('Reusable Diapers',499,'qDiaper')" disabled>Add to Cart</button>
 </div>
 
-<!-- Shirt -->
 <div class="item">
 <h3>Men Shirt / పురుషుల చొక్కా</h3>
 <img src="images/Shirt.jpg" onclick="viewImage(this.src)">
 <p class="price">₹799 per shirt</p>
-<select id="shirtQty">
-<option value="1">1</option>
-<option value="2">2</option>
+<select id="qShirt">
+<option value="1">1</option><option value="2">2</option>
 <option value="3">3</option>
 </select>
-<br>
-<button onclick="addItem('Men Shirt/చొక్కా',799,'shirtQty')" id="btnShirt" disabled>Add to Cart</button>
+<button id="bShirt" onclick="addItem('Men Shirt',799,'qShirt')" disabled>Add to Cart</button>
 </div>
 
-<!-- Coming Soon -->
 <div class="item">
 <h3>More Items Coming Soon</h3>
 <p>ఇంకా వస్తువులు త్వరలో అందుబాటులో ఉంటాయి</p>
@@ -120,13 +109,14 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 
 <div class="note">
 <b>Thank you for selecting items!</b><br>
-Use WhatsApp button to place order. Our customer care will assist you.
-Cash on Delivery available.<hr>
+Please use WhatsApp button to place order. Our customer care team will assist you.<br>
+<b>Cash on Delivery available.</b>
+<hr>
 <b>మీరు వస్తువులను ఎంపిక చేసినందుకు ధన్యవాదాలు!</b><br>
 WhatsApp ద్వారా ఆర్డర్ చేయండి. మా కస్టమర్ కేర్ మీతో సంప్రదిస్తారు.
 </div>
 
-<button onclick="shareWhatsApp()" id="waBtn" disabled style="background:#25D366">
+<button id="waBtn" onclick="shareWhatsApp()" disabled style="background:#25D366">
 Place Order on WhatsApp
 </button>
 </div>
@@ -135,7 +125,9 @@ Place Order on WhatsApp
 
 <footer>
 <p><b>MVR Market</b></p>
-<p>Products listed for ordering via WhatsApp only</p>
+<p><b>Privacy Statement:</b><br>
+We collect non-personal data such as pincode to check service availability.
+No personal information is stored on this website.</p>
 <p>© 2025 MVR Market</p>
 </footer>
 
@@ -143,23 +135,30 @@ Place Order on WhatsApp
 let cart=JSON.parse(localStorage.getItem("mvrCart"))||[];
 
 function checkPincode(){
-let pin=document.getElementById("pincode").value;
-let ok=pin==="500086";
+let p=document.getElementById("pincode").value;
+let ok=p==="500086";
+
 document.getElementById("pinMsg").innerHTML=
 ok?"<span class='free'>Available in your area</span>"
 :"<span class='warn'>We are yet to serve in this area</span>";
 
-["btnSugar","btnDiaper","btnShirt","waBtn"].forEach(id=>{
+["bSugar","bDiaper","bShirt","waBtn"].forEach(id=>{
 document.getElementById(id).disabled=!ok;
 });
-
 document.getElementById("cartBox").classList.toggle("disabled",!ok);
+
+/* GA4 tracking */
+gtag('event','pincode_entered',{
+  pincode:p,
+  serviceable: ok ? 'yes' : 'no'
+});
 }
 
-function addItem(name,price,qtyId){
-let qty=parseInt(document.getElementById(qtyId).value);
-let i=cart.find(x=>x.name===name);
-if(i)i.qty+=qty; else cart.push({name,price,qty});
+function addItem(name,price,q){
+let qty=parseInt(document.getElementById(q).value);
+let f=cart.find(i=>i.name===name);
+f?f.qty+=qty:cart.push({name,price,qty});
+gtag('event','add_to_cart',{item:name,qty:qty});
 render();
 }
 
@@ -186,20 +185,21 @@ localStorage.setItem("mvrCart",JSON.stringify(cart));
 
 function chg(i,d){
 cart[i].qty+=d;
+gtag('event','cart_qty_change',{item:cart[i].name,change:d});
 if(cart[i].qty<=0)cart.splice(i,1);
 render();
 }
 
 function shareWhatsApp(){
-let txt="Order from MVR Market:%0A";
-let sub=0;
+gtag('event','whatsapp_order');
+let txt="Order from MVR Market:%0A",sub=0;
 cart.forEach((i,n)=>{
 let a=i.price*i.qty; sub+=a;
 txt+=`${n+1}. ${i.name} x ${i.qty} = ₹${a}%0A`;
 });
 let del=sub>=1500?0:50;
-txt+=`%0ATotal: ₹${sub+del}%0ACOD Available`;
-window.open("https://wa.me/919876543210?text="+txt);
+txt+=`%0ATotal: ₹${sub+del}%0ACash on Delivery available`;
+window.open("https://wa.me/919876543210?text="+txt,"_blank");
 }
 
 function viewImage(s){window.open(s,"_blank")}
@@ -207,5 +207,5 @@ render();
 </script>
 
 </body>
-  </html>
+</html>
                                               
