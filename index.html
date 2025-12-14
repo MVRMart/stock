@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,7 +19,7 @@ header { background:#2e7d32; color:white; padding:15px; text-align:center; }
 .price { font-weight:bold; color:#2e7d32; }
 
 select, button, input {
-  padding:6px; margin-top:5px; border-radius:5px;
+  padding:6px; margin-top:6px; border-radius:5px;
 }
 
 button {
@@ -33,12 +34,20 @@ button {
   margin-bottom:10px; padding-bottom:8px; border-bottom:1px dashed #ccc;
 }
 
+.note {
+  background:#e3f2fd;
+  padding:10px;
+  border-radius:6px;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
 footer {
   background:#2e7d32; color:white; text-align:center;
   padding:15px; margin-top:20px; border-radius:12px 12px 0 0;
 }
 
-.small { font-size:13px; color:#555; }
+.small { font-size:13px; }
 .free { color:green; font-weight:bold; }
 .warn { color:#d32f2f; font-weight:bold; }
 </style>
@@ -55,7 +64,7 @@ footer {
 
 <!-- Sugar -->
 <div class="item">
-  <h2>Sugar / చక్కెర</h2>
+  <h2>Sugar/చక్కెర</h2>
   <img src="images/Sugar.jpeg" onclick="viewImage(this.src)">
   <p class="price">₹40 per kg</p>
   Qty:
@@ -66,12 +75,12 @@ footer {
     <option value="7">7 kg</option><option value="8">8 kg</option>
     <option value="9">9 kg</option><option value="10">10 kg</option>
   </select><br>
-  <button onclick="addItem('Sugar / చక్కెర',40,document.getElementById('sugarQty').value)">Add to Cart</button>
+  <button onclick="addItem('Sugar/చక్కెర',40,document.getElementById('sugarQty').value)">Add to Cart</button>
 </div>
 
 <!-- Diapers -->
 <div class="item">
-  <h2>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h2>
+  <h2>Reusable Diapers/పునర్వినియోగ డయాపర్స్</h2>
   <img src="images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
   <p class="price">₹499 per set</p>
   Qty:
@@ -80,12 +89,12 @@ footer {
     <option value="2">2 sets</option>
     <option value="3">3 sets</option>
   </select><br>
-  <button onclick="addItem('Reusable Diapers / పునర్వినియోగ డయాపర్స్',499,document.getElementById('diaperQty').value)">Add to Cart</button>
+  <button onclick="addItem('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499,document.getElementById('diaperQty').value)">Add to Cart</button>
 </div>
 
 <!-- Shirt -->
 <div class="item">
-  <h2>Men Shirt / పురుషుల చొక్కా</h2>
+  <h2>Men Shirt/పురుషుల చొక్కా</h2>
   <img src="images/Shirt.jpg" onclick="viewImage(this.src)">
   <p class="price">₹799 per shirt</p>
   Qty:
@@ -94,39 +103,59 @@ footer {
     <option value="2">2 shirts</option>
     <option value="3">3 shirts</option>
   </select><br>
-  <button onclick="addItem('Men Shirt / పురుషుల చొక్కా',799,document.getElementById('shirtQty').value)">Add to Cart</button>
+  <button onclick="addItem('Men Shirt/పురుషుల చొక్కా',799,document.getElementById('shirtQty').value)">Add to Cart</button>
 </div>
 
 <!-- Cart -->
 <div class="cart">
   <h3>🛒 Cart</h3>
   <div id="cartItems">No items added</div>
+
   <p><strong>Subtotal: ₹<span id="subtotal">0</span></strong></p>
   <p id="deliveryMsg" class="small"></p>
-  <p><strong>Total: ₹<span id="total">0</span></strong></p>
+  <p><strong>Total Amount: ₹<span id="total">0</span></strong></p>
 
-  <button onclick="shareWhatsApp()" style="background:#25D366;">Share Order on WhatsApp</button>
+  <!-- Message ABOVE WhatsApp -->
+  <div class="note">
+    <strong>Thank you for selecting items!</strong><br>
+    Please use the below button to place your order on WhatsApp.
+    One of our customer care executives will connect with you for
+    payment and delivery details.<br><br>
+
+    <strong>Do not worry about payment.</strong>
+    We also offer <strong>Cash on Delivery (COD)</strong>.
+    <hr>
+    <strong>మీరు వస్తువులను ఎంపిక చేసినందుకు ధన్యవాదాలు!</strong><br>
+    దిగువ ఉన్న WhatsApp బటన్ ద్వారా ఆర్డర్ చేయండి.
+    మా కస్టమర్ కేర్ ప్రతినిధి మీతో సంప్రదించి
+    చెల్లింపు మరియు డెలివరీ వివరాలు తెలియజేస్తారు.<br><br>
+
+    <strong>చెల్లింపుపై ఆందోళన అవసరం లేదు.</strong>
+    మేము <strong>Cash on Delivery (COD)</strong> సౌకర్యాన్ని కూడా అందిస్తున్నాము.
+  </div>
+
+  <button onclick="shareWhatsApp()" style="background:#25D366;">
+    Place Order on WhatsApp
+  </button>
 </div>
 
 </div>
 
 <footer>
   <p><strong>MVR Market</strong></p>
-  <p>This website lists products only. Orders via WhatsApp.</p>
+  <p>This website lists products only. Orders are placed via WhatsApp.</p>
   <p>© 2025 MVR Market. All rights reserved.</p>
 </footer>
 
 <script>
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("mvrCart")) || [];
+renderCart();
 
 function addItem(name, price, qty) {
   qty = parseInt(qty);
   let item = cart.find(i => i.name === name);
-  if (item) {
-    item.qty += qty;
-  } else {
-    cart.push({ name, price, qty });
-  }
+  if (item) item.qty += qty;
+  else cart.push({ name, price, qty });
   renderCart();
 }
 
@@ -170,14 +199,14 @@ function renderCart() {
   document.getElementById("subtotal").innerText = subtotal;
 
   let delivery = subtotal >= 1500 ? 0 : 50;
-  let total = subtotal + delivery;
+  document.getElementById("deliveryMsg").innerHTML =
+    delivery === 0
+      ? "<span class='free'>🎉 Free Delivery</span>"
+      : `<span class='warn'>Add ₹${1500-subtotal} more for FREE delivery</span>`;
 
-  let msg = delivery === 0
-    ? "<span class='free'>🎉 Free Delivery</span>"
-    : `<span class='warn'>Add ₹${1500-subtotal} more for FREE delivery</span>`;
+  document.getElementById("total").innerText = subtotal + delivery;
 
-  document.getElementById("deliveryMsg").innerHTML = msg;
-  document.getElementById("total").innerText = total;
+  localStorage.setItem("mvrCart", JSON.stringify(cart));
 }
 
 function shareWhatsApp() {
@@ -191,7 +220,7 @@ function shareWhatsApp() {
   });
 
   let delivery = subtotal>=1500?0:50;
-  text+=`%0ASubtotal: ₹${subtotal}%0ADelivery: ₹${delivery}%0ATotal: ₹${subtotal+delivery}`;
+  text+=`%0ASubtotal: ₹${subtotal}%0ADelivery: ₹${delivery}%0ATotal: ₹${subtotal+delivery}%0A%0ACash on Delivery available`;
 
   window.open("https://wa.me/919876543210?text="+text,"_blank");
 }
@@ -200,4 +229,3 @@ function viewImage(src){ window.open(src,"_blank"); }
 </script>
 
 </body>
-  </html>
