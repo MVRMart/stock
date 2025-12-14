@@ -3,335 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MVR Market | Local Marketplace</title>
+<title>MVR Market</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DM97TJNN5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DM97TJNN5G');
+</script>
 
 <style>
-:root{
-  --green:#2e7d32;
-  --blue:#1976d2;
-  --bg:#f4f6f8;
-  --card:#ffffff;
-  --warn:#d32f2f;
-}
+body{margin:0;font-family:Arial;background:#f5f5f5}
+header{background:#2e7d32;color:#fff;padding:15px;text-align:center}
+.container{padding:15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 
-*{box-sizing:border-box}
+.item{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.item img{width:100%;max-height:180px;object-fit:contain;cursor:pointer}
+.price{font-weight:bold;color:#2e7d32}
 
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:#333;
-}
+select,button,input{padding:6px;margin-top:6px;border-radius:6px}
+button{background:#1976d2;color:#fff;border:none;cursor:pointer}
+button:disabled{background:#9e9e9e;cursor:not-allowed}
 
-/* Header */
-header{
-  background:linear-gradient(135deg,#2e7d32,#66bb6a);
-  color:white;
-  text-align:center;
-  padding:25px 15px;
-}
-header h1{margin:0;font-size:28px}
-header p{margin-top:6px;font-size:14px;opacity:.95}
+.cart{background:#fff8e1;padding:15px;border-radius:10px;margin-top:20px}
+.cart-item{border-bottom:1px dashed #ccc;padding-bottom:8px;margin-bottom:8px}
 
-/* Layout */
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
+.note{background:#e3f2fd;padding:10px;border-radius:6px;font-size:14px;margin-bottom:10px}
 
-/* Disabled */
-.disabled{
-  opacity:.5;
-  pointer-events:none;
-}
+footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
 
-/* Pincode */
-.pincode-box{
-  background:#fff;
-  padding:15px;
-  border-radius:14px;
-  box-shadow:0 6px 16px rgba(0,0,0,.1);
-  margin-bottom:25px;
-}
-
-.pincode-box input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-.pincode-msg{
-  margin-top:8px;
-  font-size:14px;
-  font-weight:bold;
-}
-
-/* Products grid */
-.products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:20px;
-}
-@media(max-width:640px){
-  .products{grid-template-columns:1fr;}
-}
-
-.item{
-  background:#fff;
-  padding:16px;
-  border-radius:14px;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.item img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-  border-radius:10px;
-}
-
-.price{
-  font-weight:600;
-  color:var(--green);
-}
-
-select,input{
-  width:100%;
-  padding:8px;
-  margin-top:6px;
-  border-radius:6px;
-  border:1px solid #ccc;
-}
-
-button{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border:none;
-  border-radius:8px;
-  background:var(--blue);
-  color:white;
-  font-size:15px;
-  cursor:pointer;
-}
-
-button.disabled{
-  background:#9e9e9e;
-}
-
-/* Cart */
-.cart{
-  background:#fff8e1;
-  padding:20px;
-  border-radius:16px;
-  margin-top:30px;
-}
-
-.cart-item{
-  padding:10px 0;
-  border-bottom:1px dashed #ccc;
-}
-
-.cart-item button{
-  width:auto;
-  padding:4px 8px;
-  margin-right:4px;
-}
-
-.note{
-  background:#e3f2fd;
-  padding:14px;
-  border-radius:10px;
-  font-size:14px;
-  margin:15px 0;
-}
-
-.free{color:green;font-weight:600}
-.warn{color:#d32f2f;font-weight:600}
-
-/* Footer */
-footer{
-  background:#2e7d32;
-  color:white;
-  text-align:center;
-  padding:20px;
-  margin-top:30px;
-}
+.free{color:green;font-weight:bold}
+.warn{color:#d32f2f;font-weight:bold}
+.small{font-size:13px}
+.disabled{opacity:.5}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>MVR Market</h1>
-  <p>Lowest Prices • Best Quality • Cash on Delivery<br>తక్కువ ధరలు • ఉత్తమ నాణ్యత • Cash on Delivery</p>
+<h1>MVR Market</h1>
+<p>Lowest Prices • Best Quality • Cash on Delivery</p>
+<p>తక్కువ ధరలు • మంచి నాణ్యత</p>
 </header>
 
 <div class="container">
 
-<!-- PINCODE -->
-<div class="pincode-box">
-  <strong>Please enter pincode to check available items and place order<br>సరఫరా పొందగలిగే వస్తువులను చూడటానికి మరియు ఆర్డర్ ఇవ్వటానికి పిన్‌కోడ్ నమోదు చేయండి</strong>
-  <input type="number" id="pincode" placeholder="Enter pincode" oninput="checkPincode()">
-  <div id="pincodeMsg"></div>
-</div>
+<b>Please enter pincode to check available items and place order</b><br>
+<b>దయచేసి పిన్ కోడ్ ఎంటర్ చేసి, అందుబాటులో ఉన్న వస్తువులను తనిఖీ చేసి ఆర్డర్ చేయండి</b><br><br>
 
-<!-- PRODUCTS -->
-<div class="products product-area disabled" id="productArea">
+<input type="number" id="pincode" placeholder="Enter pincode" oninput="checkPincode()">
 
+<p id="pinMsg" class="small"></p>
+
+<div class="grid" id="itemsSection" class="disabled">
+
+<!-- Sugar -->
 <div class="item">
-  <h3>Sugar / చక్కెర</h3>
-  <img src="images/Sugar.jpeg">
-  <p class="price">₹40 per kg</p>
-  <select id="sugarQty"><option>1</option><option>2</option><option>3</option></select>
-  <button class="addBtn" onclick="addItem('Sugar / చక్కెర',40,sugarQty.value)">Add to Cart</button>
+<h3>Sugar / చక్కెర</h3>
+<img src="images/Sugar.jpeg" onclick="viewImage(this.src)">
+<p class="price">₹40 per kg</p>
+<select id="sugarQty">
+<option value="1">1 kg</option><option value="2">2 kg</option>
+<option value="3">3 kg</option><option value="4">4 kg</option>
+<option value="5">5 kg</option>
+</select>
+<br>
+<button onclick="addItem('Sugar/చక్కెర',40,'sugarQty')" id="btnSugar" disabled>Add to Cart</button>
 </div>
 
+<!-- Diapers -->
 <div class="item">
-  <h3>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h3>
-  <img src="images/ms_6y0zi_512_546541773.jpg">
-  <p class="price">₹499 per set</p>
-  <select id="diaperQty"><option>1</option><option>2</option></select>
-  <button class="addBtn" onclick="addItem('Reusable Diapers / పునర్వినియోగ డయాపర్స్',499,diaperQty.value)">Add to Cart</button>
+<h3>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h3>
+<img src="images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
+<p class="price">₹499 per set</p>
+<select id="diaperQty">
+<option value="1">1 set</option>
+<option value="2">2 sets</option>
+<option value="3">3 sets</option>
+</select>
+<br>
+<button onclick="addItem('Reusable Diapers/డయాపర్స్',499,'diaperQty')" id="btnDiaper" disabled>Add to Cart</button>
 </div>
 
+<!-- Shirt -->
 <div class="item">
-  <h3>Men Shirt / పురుషుల చొక్కా</h3>
-  <img src="images/Shirt.jpg">
-  <p class="price">₹799</p>
-  <select id="shirtQty"><option>1</option><option>2</option></select>
-  <button class="addBtn" onclick="addItem('Men Shirt / పురుషుల చొక్కా',799,shirtQty.value)">Add to Cart</button>
+<h3>Men Shirt / పురుషుల చొక్కా</h3>
+<img src="images/Shirt.jpg" onclick="viewImage(this.src)">
+<p class="price">₹799 per shirt</p>
+<select id="shirtQty">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+</select>
+<br>
+<button onclick="addItem('Men Shirt/చొక్కా',799,'shirtQty')" id="btnShirt" disabled>Add to Cart</button>
 </div>
 
-<div class="item disabled">
-  <h3>More Items</h3>
-  <img src="images/comingsoon.jpg">
-  <p class="price">Coming Soon</p>
+<!-- Coming Soon -->
+<div class="item">
+<h3>More Items Coming Soon</h3>
+<p>ఇంకా వస్తువులు త్వరలో అందుబాటులో ఉంటాయి</p>
 </div>
 
 </div>
 
-<!-- CART -->
 <div class="cart disabled" id="cartBox">
-  <h3>🛒 Cart</h3>
-  <div id="cartItems">No items added</div>
-  <p><strong>Total: ₹<span id="total">0</span></strong></p>
+<h3>🛒 Cart</h3>
+<div id="cartItems">No items added</div>
+<p><b>Subtotal: ₹<span id="subtotal">0</span></b></p>
+<p id="deliveryMsg"></p>
+<p><b>Total: ₹<span id="total">0</span></b></p>
 
-  <div class="note">
-    Orders are accepted only in serviceable areas.<br>
-    Orders are processed via WhatsApp with Cash on Delivery available.<br>
-    సేవలందిస్తున్న ప్రాంతాల్లో మాత్రమే ఆర్డర్లు తీసుకోబడతాయి.<br>
-    WhatsApp ద్వారా ఆర్డర్లు Cash on Delivery తో ప్రాసెస్ చేయబడతాయి.
-  </div>
+<div class="note">
+<b>Thank you for selecting items!</b><br>
+Use WhatsApp button to place order. Our customer care will assist you.
+Cash on Delivery available.<hr>
+<b>మీరు వస్తువులను ఎంపిక చేసినందుకు ధన్యవాదాలు!</b><br>
+WhatsApp ద్వారా ఆర్డర్ చేయండి. మా కస్టమర్ కేర్ మీతో సంప్రదిస్తారు.
+</div>
 
-  <button id="waBtn" class="disabled" onclick="shareWhatsApp()" style="background:#25D366;">
-    Place Order on WhatsApp
-  </button>
+<button onclick="shareWhatsApp()" id="waBtn" disabled style="background:#25D366">
+Place Order on WhatsApp
+</button>
 </div>
 
 </div>
 
 <footer>
-  <p>Currently serving pincode <strong>500086</strong></p>
-  <p>© 2025 MVR Market</p>
+<p><b>MVR Market</b></p>
+<p>Products listed for ordering via WhatsApp only</p>
+<p>© 2025 MVR Market</p>
 </footer>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("mvrCart")) || [];
-let serviceAvailable = false;
+let cart=JSON.parse(localStorage.getItem("mvrCart"))||[];
 
 function checkPincode(){
-  let p = document.getElementById("pincode").value;
-  let msg = document.getElementById("pincodeMsg");
+let pin=document.getElementById("pincode").value;
+let ok=pin==="500086";
+document.getElementById("pinMsg").innerHTML=
+ok?"<span class='free'>Available in your area</span>"
+:"<span class='warn'>We are yet to serve in this area</span>";
 
-  if(p === "500086"){
-    serviceAvailable = true;
-    msg.innerHTML = "<span class='free'>Service available in your area</span><br>ఈ ప్రాంతంలో సేవలు అందుబాటులో ఉన్నాయి";
-    enableService();
-  }else if(p.length === 6){
-    serviceAvailable = false;
-    msg.innerHTML = "<span class='warn'>We are yet to serve in this area</span><br>ఈ ప్రాంతంలో సేవలు త్వరలో అందుబాటులోకి వస్తాయి";
-    disableService();
-  }else{
-    serviceAvailable = false;
-    disableService();
-    msg.innerHTML = "";
-  }
+["btnSugar","btnDiaper","btnShirt","waBtn"].forEach(id=>{
+document.getElementById(id).disabled=!ok;
+});
+
+document.getElementById("cartBox").classList.toggle("disabled",!ok);
 }
 
-function enableService(){
-  document.getElementById("productArea").classList.remove("disabled");
-  document.getElementById("cartBox").classList.remove("disabled");
-  document.getElementById("waBtn").classList.remove("disabled");
-  document.querySelectorAll(".addBtn").forEach(b=>b.classList.remove("disabled"));
+function addItem(name,price,qtyId){
+let qty=parseInt(document.getElementById(qtyId).value);
+let i=cart.find(x=>x.name===name);
+if(i)i.qty+=qty; else cart.push({name,price,qty});
+render();
 }
 
-function disableService(){
-  document.getElementById("productArea").classList.add("disabled");
-  document.getElementById("cartBox").classList.add("disabled");
-  document.getElementById("waBtn").classList.add("disabled");
-  document.querySelectorAll(".addBtn").forEach(b=>b.classList.add("disabled"));
+function render(){
+let html="",sub=0;
+cart.forEach((i,idx)=>{
+let amt=i.price*i.qty; sub+=amt;
+html+=`<div class='cart-item'>
+<b>${i.name}</b><br>
+₹${i.price} × ${i.qty} = ₹${amt}<br>
+<button onclick="chg(${idx},1)">+</button>
+<button onclick="chg(${idx},-1)">-</button>
+</div>`;
+});
+document.getElementById("cartItems").innerHTML=html||"No items added";
+document.getElementById("subtotal").innerText=sub;
+let del=sub>=1500?0:50;
+document.getElementById("deliveryMsg").innerHTML=
+del==0?"<span class='free'>Free Delivery</span>"
+:`<span class='warn'>Add ₹${1500-sub} more for free delivery</span>`;
+document.getElementById("total").innerText=sub+del;
+localStorage.setItem("mvrCart",JSON.stringify(cart));
 }
 
-// Add to Cart only on button press
-function addItem(name, price, qty){
-  if(!serviceAvailable) return;
-  qty=parseInt(qty);
-  let item = cart.find(i => i.name===name);
-  if(item) item.qty+=qty; else cart.push({name,price,qty});
-  renderCart();
-}
-
-function renderCart(){
-  let html="",total=0;
-  cart.forEach((i,idx)=>{
-    let amt=i.price*i.qty;
-    total+=amt;
-    html+=`
-      <div class="cart-item">
-        <strong>${i.name}</strong><br>
-        ₹${i.price} × ${i.qty} = ₹${amt}<br>
-        <button onclick="changeQty(${idx},1)">+</button>
-        <button onclick="changeQty(${idx},-1)">-</button>
-        <button onclick="removeItem(${idx})" style="background:#d32f2f;">Remove</button>
-      </div>`;
-  });
-  document.getElementById("cartItems").innerHTML = html || "No items added";
-  document.getElementById("total").innerText = total;
-  localStorage.setItem("mvrCart",JSON.stringify(cart));
-}
-
-function changeQty(idx,delta){
-  if(!serviceAvailable) return;
-  cart[idx].qty+=delta;
-  if(cart[idx].qty<=0) cart.splice(idx,1);
-  renderCart();
-}
-
-function removeItem(idx){
-  if(!serviceAvailable) return;
-  cart.splice(idx,1);
-  renderCart();
+function chg(i,d){
+cart[i].qty+=d;
+if(cart[i].qty<=0)cart.splice(i,1);
+render();
 }
 
 function shareWhatsApp(){
-  if(!serviceAvailable || cart.length===0) return;
-  let txt="Order from MVR Market:%0A";
-  let total=0;
-  cart.forEach((i,n)=>{
-    let amt=i.price*i.qty;
-    total+=amt;
-    txt+=`${n+1}. ${i.name} × ${i.qty} = ₹${amt}%0A`;
-  });
-  txt+="%0ACash on Delivery available";
-  window.open("https://wa.me/919876543210?text="+txt,"_blank");
+let txt="Order from MVR Market:%0A";
+let sub=0;
+cart.forEach((i,n)=>{
+let a=i.price*i.qty; sub+=a;
+txt+=`${n+1}. ${i.name} x ${i.qty} = ₹${a}%0A`;
+});
+let del=sub>=1500?0:50;
+txt+=`%0ATotal: ₹${sub+del}%0ACOD Available`;
+window.open("https://wa.me/919876543210?text="+txt);
 }
 
-renderCart();
+function viewImage(s){window.open(s,"_blank")}
+render();
 </script>
 
 </body>
