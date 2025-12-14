@@ -204,7 +204,7 @@ function updateTruck(){
   stage1.classList.remove("active");stage2.classList.remove("active");stage3.classList.remove("active");
   if((day>=1&&day<=5)||(day==6&&hr<13)){stage1.classList.add("active");stageMsg.innerText="🚚 Collecting orders. Order by Saturday afternoon.";}
   else if((day==6&&hr>=13)||(day==0&&hr<22)){stage2.classList.add("active");stageMsg.innerText="🚛 Out for delivery. Orders still accepted.";}
-  else{stage3.classList.add("active");stageMsg.innerText="✅ All items delivered.";}
+  else{stage3.classList.add("active");stageMsg.innerText="🚚 All items delivered.";}
 }
 
 updateTruck();
