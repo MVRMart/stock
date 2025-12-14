@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MVR Market</title>
 
-<!-- Google Analytics -->
+<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM97TJNN5G"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -16,28 +16,22 @@ gtag('config', 'G-DM97TJNN5G');
 
 <style>
 body{margin:0;font-family:Arial;background:#f5f5f5}
-header{background:#2e7d32;color:#fff;padding:16px;text-align:center}
+header{background:#2e7d32;color:#fff;padding:15px;text-align:center}
 .container{padding:15px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-
-.item{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.item img{width:100%;height:160px;object-fit:contain;cursor:pointer}
-.price{font-weight:bold;color:#2e7d32}
-
-select,button,input{padding:6px;margin-top:6px;border-radius:6px}
-button{background:#1976d2;color:#fff;border:none;cursor:pointer}
-button:disabled{background:#9e9e9e;cursor:not-allowed}
-
-.cart{background:#fff8e1;padding:15px;border-radius:10px;margin-top:20px}
-.cart-item{border-bottom:1px dashed #ccc;padding-bottom:8px;margin-bottom:8px}
-
-.note{background:#e3f2fd;padding:10px;border-radius:6px;font-size:14px;margin-bottom:10px}
-footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
-
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.item,.cart,.box{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.item img{width:150px;border-radius:6px;cursor:pointer}
+.price{color:#2e7d32;font-weight:bold}
+button{padding:7px 12px;border:none;border-radius:6px;cursor:pointer}
+.primary{background:#1976d2;color:#fff}
+.whatsapp{background:#25D366;color:#fff}
+button:disabled{background:#ccc}
+.note{background:#e3f2fd;padding:10px;border-radius:6px;font-size:14px}
 .free{color:green;font-weight:bold}
 .warn{color:#d32f2f;font-weight:bold}
-.disabled{opacity:.5;pointer-events:none}
-.small{font-size:13px}
+footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:20px}
+.cart-item{border-bottom:1px dashed #ccc;padding:8px 0}
+.cart-item button{margin:0 3px}
 </style>
 </head>
 
@@ -51,161 +45,147 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 
 <div class="container">
 
+<!-- PINCODE -->
+<div class="box">
 <b>Please enter pincode to check available items and place order</b><br>
 <b>దయచేసి పిన్ కోడ్ ఎంటర్ చేసి, అందుబాటులో ఉన్న వస్తువులను తనిఖీ చేసి ఆర్డర్ చేయండి</b><br><br>
+<input type="number" id="pincode" placeholder="Enter Pincode">
+<p id="pinMsg"></p>
+</div>
 
-<input type="number" id="pincode" placeholder="Enter pincode" oninput="checkPincode()">
-<p id="pinMsg" class="small"></p>
+<!-- TRUCK -->
+<div class="box" id="truckBox"></div>
 
+<!-- ITEMS -->
 <div class="grid">
-
 <div class="item">
 <h3>Sugar / చక్కెర</h3>
-<img src="images/Sugar.jpeg" onclick="viewImage(this.src)">
+<img src="images/Sugar.jpeg" onclick="openImg(this.src)">
 <p class="price">₹40 per kg</p>
-<select id="qSugar">
+<select id="sugarQty">
 <option value="1">1 kg</option><option value="2">2 kg</option>
 <option value="3">3 kg</option><option value="4">4 kg</option>
 <option value="5">5 kg</option>
-</select>
-<button id="bSugar" onclick="addItem('Sugar/చక్కెర',40,'qSugar')" disabled>Add to Cart</button>
+</select><br><br>
+<button class="primary" onclick="addItem('Sugar/చక్కెర',40,sugarQty.value)">Add to Cart</button>
 </div>
 
 <div class="item">
 <h3>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h3>
-<img src="images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
+<img src="images/ms_6y0zi_512_546541773.jpg" onclick="openImg(this.src)">
 <p class="price">₹499 per set</p>
-<select id="qDiaper">
-<option value="1">1 set</option><option value="2">2 sets</option>
-<option value="3">3 sets</option>
-</select>
-<button id="bDiaper" onclick="addItem('Reusable Diapers',499,'qDiaper')" disabled>Add to Cart</button>
+<select id="diaperQty">
+<option value="1">1 set</option><option value="2">2 sets</option><option value="3">3 sets</option>
+</select><br><br>
+<button class="primary" onclick="addItem('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499,diaperQty.value)">Add to Cart</button>
 </div>
 
 <div class="item">
 <h3>Men Shirt / పురుషుల చొక్కా</h3>
-<img src="images/Shirt.jpg" onclick="viewImage(this.src)">
+<img src="images/Shirt.jpg" onclick="openImg(this.src)">
 <p class="price">₹799 per shirt</p>
-<select id="qShirt">
-<option value="1">1</option><option value="2">2</option>
-<option value="3">3</option>
-</select>
-<button id="bShirt" onclick="addItem('Men Shirt',799,'qShirt')" disabled>Add to Cart</button>
+<select id="shirtQty">
+<option value="1">1</option><option value="2">2</option><option value="3">3</option>
+</select><br><br>
+<button class="primary" onclick="addItem('Men Shirt/పురుషుల చొక్కా',799,shirtQty.value)">Add to Cart</button>
 </div>
 
 <div class="item">
-<h3>More Items Coming Soon</h3>
-<p>ఇంకా వస్తువులు త్వరలో అందుబాటులో ఉంటాయి</p>
+<h3>More Items Coming Soon 🚧</h3>
+<p>మరిన్ని వస్తువులు త్వరలో</p>
+</div>
 </div>
 
-</div>
-
-<div class="cart disabled" id="cartBox">
+<!-- CART -->
+<div class="cart">
 <h3>🛒 Cart</h3>
-<div id="cartItems">No items added</div>
-<p><b>Subtotal: ₹<span id="subtotal">0</span></b></p>
+<div id="cartItems">No items</div>
+<p>Subtotal: ₹<span id="subtotal">0</span></p>
 <p id="deliveryMsg"></p>
 <p><b>Total: ₹<span id="total">0</span></b></p>
 
 <div class="note">
-<b>Thank you for selecting items!</b><br>
-Please use WhatsApp button to place order. Our customer care team will assist you.<br>
-<b>Cash on Delivery available.</b>
-<hr>
-<b>మీరు వస్తువులను ఎంపిక చేసినందుకు ధన్యవాదాలు!</b><br>
-WhatsApp ద్వారా ఆర్డర్ చేయండి. మా కస్టమర్ కేర్ మీతో సంప్రదిస్తారు.
+Thank you for selecting items. Please place order via WhatsApp. Cash on Delivery available.<br><br>
+మీరు వస్తువులు ఎంపిక చేసినందుకు ధన్యవాదాలు. WhatsApp ద్వారా ఆర్డర్ చేయండి.
 </div>
 
-<button id="waBtn" onclick="shareWhatsApp()" disabled style="background:#25D366">
-Place Order on WhatsApp
-</button>
+<button id="waBtn" class="whatsapp" onclick="shareWA()" disabled>Place Order on WhatsApp</button>
 </div>
 
 </div>
 
-<footer>
-<p><b>MVR Market</b></p>
-<p><b>Privacy Statement:</b><br>
-We collect non-personal data such as pincode to check service availability.
-No personal information is stored on this website.</p>
-<p>© 2025 MVR Market</p>
-</footer>
+<footer>© 2025 MVR Market</footer>
 
 <script>
-let cart=JSON.parse(localStorage.getItem("mvrCart"))||[];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-function checkPincode(){
-let p=document.getElementById("pincode").value;
-let ok=p==="500086";
-
-document.getElementById("pinMsg").innerHTML=
-ok?"<span class='free'>Available in your area</span>"
-:"<span class='warn'>We are yet to serve in this area</span>";
-
-["bSugar","bDiaper","bShirt","waBtn"].forEach(id=>{
-document.getElementById(id).disabled=!ok;
-});
-document.getElementById("cartBox").classList.toggle("disabled",!ok);
-
-/* GA4 tracking */
-gtag('event','pincode_entered',{
-  pincode:p,
-  serviceable: ok ? 'yes' : 'no'
-});
+function addItem(name,price,qty){
+qty=parseInt(qty);
+let item=cart.find(i=>i.name===name);
+item?item.qty+=qty:cart.push({name,price,qty});
+gtag('event','add_to_cart',{item:name});
+render();
 }
 
-function addItem(name,price,q){
-let qty=parseInt(document.getElementById(q).value);
-let f=cart.find(i=>i.name===name);
-f?f.qty+=qty:cart.push({name,price,qty});
-gtag('event','add_to_cart',{item:name,qty:qty});
+function changeQty(i,d){
+cart[i].qty+=d;
+if(cart[i].qty<=0)cart.splice(i,1);
 render();
 }
 
 function render(){
 let html="",sub=0;
-cart.forEach((i,idx)=>{
-let amt=i.price*i.qty; sub+=amt;
-html+=`<div class='cart-item'>
+cart.forEach((i,n)=>{
+let amt=i.price*i.qty;sub+=amt;
+html+=`
+<div class="cart-item">
 <b>${i.name}</b><br>
 ₹${i.price} × ${i.qty} = ₹${amt}<br>
-<button onclick="chg(${idx},1)">+</button>
-<button onclick="chg(${idx},-1)">-</button>
+<button onclick="changeQty(${n},1)">+</button>
+<button onclick="changeQty(${n},-1)">-</button>
 </div>`;
 });
-document.getElementById("cartItems").innerHTML=html||"No items added";
-document.getElementById("subtotal").innerText=sub;
+cartItems.innerHTML=html||"No items";
+subtotal.innerText=sub;
 let del=sub>=1500?0:50;
-document.getElementById("deliveryMsg").innerHTML=
-del==0?"<span class='free'>Free Delivery</span>"
-:`<span class='warn'>Add ₹${1500-sub} more for free delivery</span>`;
-document.getElementById("total").innerText=sub+del;
-localStorage.setItem("mvrCart",JSON.stringify(cart));
+deliveryMsg.innerHTML=del?`<span class="warn">Add ₹${1500-sub} more for FREE delivery</span>`:`<span class="free">🎉 Free Delivery</span>`;
+total.innerText=sub+del;
+localStorage.setItem("cart",JSON.stringify(cart));
 }
 
-function chg(i,d){
-cart[i].qty+=d;
-gtag('event','cart_qty_change',{item:cart[i].name,change:d});
-if(cart[i].qty<=0)cart.splice(i,1);
-render();
+function shareWA(){
+let pin=pincode.value;
+gtag('event','whatsapp_order',{pincode:pin});
+let msg=`Order from MVR Market%0APincode: ${pin}%0A`;
+cart.forEach((i,n)=>msg+=`${n+1}. ${i.name} × ${i.qty} = ₹${i.price*i.qty}%0A`);
+window.open("https://wa.me/919876543210?text="+msg);
 }
 
-function shareWhatsApp(){
-gtag('event','whatsapp_order');
-let txt="Order from MVR Market:%0A",sub=0;
-cart.forEach((i,n)=>{
-let a=i.price*i.qty; sub+=a;
-txt+=`${n+1}. ${i.name} x ${i.qty} = ₹${a}%0A`;
-});
-let del=sub>=1500?0:50;
-txt+=`%0ATotal: ₹${sub+del}%0ACash on Delivery available`;
-window.open("https://wa.me/919876543210?text="+txt,"_blank");
+pincode.oninput=()=>{
+gtag('event','pincode_entered',{pincode:pincode.value});
+if(pincode.value==="500086"){
+pinMsg.innerHTML="<span class='free'>Service available</span>";
+waBtn.disabled=false;
+gtag('event','serviceable_area');
+}else{
+pinMsg.innerHTML="<span class='warn'>We are yet to serve in this area</span>";
+waBtn.disabled=true;
 }
+};
 
-function viewImage(s){window.open(s,"_blank")}
-render();
+function truck(){
+let d=new Date(),day=d.getDay(),hr=d.getHours();
+if((day>=1&&day<=5)||(day==6&&hr<13))
+truckBox.innerHTML="🚚 <b>Collecting Orders</b><br>Order by Saturday afternoon for weekend delivery.";
+else if((day==6&&hr>=13)||(day==0&&hr<22))
+truckBox.innerHTML="🚛 <b>Out for Delivery</b><br>Still accepting orders – order now to save big!";
+else
+truckBox.innerHTML="✅ <b>Delivered</b><br>All items delivered.";
+}
+truck();render();
+function openImg(s){window.open(s)}
 </script>
 
 </body>
 </html>
-                                              
+                                            
