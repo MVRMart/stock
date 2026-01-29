@@ -1,5 +1,5 @@
 // ===============================
-// app.js for MVR Mart (FIXED)
+// app.js for MVR Mart (FINAL FIXED)
 // ===============================
 
 // Cart array, load from localStorage if exists
@@ -41,12 +41,19 @@ function unlockAccess() {
 function addToCart(name, price) {
   if (!accessGranted) return;
 
-  const qtyInput = document.querySelector(`#${name.replace(/\s+/g, "")}Qty`);
+  // ✅ IMPORTANT FIX
+  const btn = event.target;
+  const productKey = btn.dataset.product; // Sugar, ReusableDiapers, MenShirt
+
+  const qtyInput = document.getElementById(productKey + "Qty");
   let qty = qtyInput ? Math.max(1, parseInt(qtyInput.value) || 1) : 1;
 
   let item = cart.find(i => i.name === name);
-  if (item) item.qty += qty;
-  else cart.push({ name, price, qty });
+  if (item) {
+    item.qty += qty;
+  } else {
+    cart.push({ name, price, qty });
+  }
 
   renderCart();
 }
@@ -78,13 +85,14 @@ function renderCart() {
     html += `
       <div class="cart-item">
         <strong>${item.name}</strong><br>
-        ₹${item.price} × 
+        ₹${item.price} ×
         <input type="number" min="1" value="${item.qty}"
           onchange="updateQty(${i},this.value)">
         = ₹${amt}<br>
         <button onclick="changeQty(${i},1)">+</button>
         <button onclick="changeQty(${i},-1)">-</button>
-        <button onclick="removeItem(${i})" style="background:#d32f2f;color:#fff">
+        <button onclick="removeItem(${i})"
+          style="background:#d32f2f;color:#fff">
           Remove
         </button>
       </div>
@@ -92,11 +100,11 @@ function renderCart() {
   });
 
   document.getElementById("cartItems").innerHTML = html || "No items added";
-
   document.getElementById("subtotal").innerText = subtotal;
 
   let deliveryCharge = subtotal >= 1500 ? 0 : 50;
-  document.getElementById("deliveryRow").style.display = subtotal > 0 ? "block" : "none";
+  document.getElementById("deliveryRow").style.display =
+    subtotal > 0 ? "block" : "none";
   document.getElementById("deliveryCharge").innerText = deliveryCharge;
   document.getElementById("total").innerText = subtotal + deliveryCharge;
 
@@ -113,7 +121,8 @@ function checkPincode() {
   lockAccess();
 
   if (serviceableAreas[pincode]) {
-    result.innerHTML = `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
+    result.innerHTML =
+      `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
     result.style.color = "green";
     unlockAccess();
   } else {
@@ -142,7 +151,6 @@ function placeOrder() {
   }
 
   const pincode = document.getElementById("pincode").value.trim();
-
   let text = `Order from MVR Mart\nPincode: ${pincode}\n\n`;
   let subtotal = 0;
 
