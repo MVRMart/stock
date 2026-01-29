@@ -18,6 +18,48 @@ gtag('config', 'G-DM97TJNN5G');
 </head>
 
 <body>
+  <!-- =========================
+     PINCODE CHECK SECTION
+========================= -->
+<section style="margin:20px 0;">
+  <h3>Check Delivery Availability</h3>
+
+  <input
+    type="number"
+    id="pincode"
+    placeholder="Enter pincode"
+    oninput="resetAccess()"
+  />
+
+  <button onclick="checkPincode()">Check</button>
+
+  <div id="pincodeResult" style="margin-top:8px;font-weight:bold;"></div>
+</section>
+
+<hr>
+
+<!-- =========================
+     CART SECTION
+========================= -->
+<section id="cartSection" style="display:none;">
+  <h3>Your Cart</h3>
+
+  <div id="cartItems"></div>
+
+  <p>
+    Subtotal: ₹<span id="subtotal">0</span>
+  </p>
+
+  <p id="deliveryRow" style="display:none;">
+    Delivery Charge: ₹<span id="deliveryCharge">0</span>
+  </p>
+
+  <p style="font-weight:bold;">
+    Total: ₹<span id="total">0</span>
+  </p>
+
+  <button onclick="placeOrder()">Place Order (WhatsApp)</button>
+</section>
 
 <div class="layout">
 
@@ -125,6 +167,6 @@ Thank you for selecting items. Please place order via WhatsApp. Cash on Delivery
 
 </div>
 
-<script src="../js/app.js"></script>
+<script src="../js/app.js?v=2"></script>
 </body>
 </html>
