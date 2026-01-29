@@ -102,23 +102,21 @@ function checkPincode() {
   const pincode = document.getElementById("pincode").value.trim();
   const result = document.getElementById("pincodeResult");
 
+  // 🔒 Always reset first
+  document.getElementById("cartSection").style.display = "none";
+  document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = true);
+
   if (serviceableAreas[pincode]) {
-    result.innerHTML = `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
+    result.innerHTML =
+      `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
     result.style.color = "green";
 
+    // ✅ Enable cart + buttons
     document.getElementById("cartSection").style.display = "block";
-
-    // Enable all Add to Cart buttons
     document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = false);
-
   } else {
     result.innerHTML = "❌ Delivery not available for this pincode";
     result.style.color = "red";
-
-    document.getElementById("cartSection").style.display = "none";
-
-    // Disable all Add to Cart buttons
-    document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = true);
   }
 }
 
