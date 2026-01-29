@@ -110,8 +110,12 @@ function renderCart() {
 
   let deliveryCharge = 0;
 
+document.getElementById("freeDeliveryBadge").style.display = "none";
+
 if (subtotal > 0 && subtotal < 1500) {
   deliveryCharge = 50;
+} else if (subtotal >= 1500) {
+  document.getElementById("freeDeliveryBadge").style.display = "block";
 }
 
 document.getElementById("deliveryRow").style.display =
