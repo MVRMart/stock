@@ -18,48 +18,8 @@ gtag('config', 'G-DM97TJNN5G');
 </head>
 
 <body>
-  <!-- =========================
-     PINCODE CHECK SECTION
-========================= -->
-<section style="margin:20px 0;">
-  <h3>Check Delivery Availability</h3>
-
-  <input
-    type="number"
-    id="pincode"
-    placeholder="Enter pincode"
-    oninput="resetAccess()"
-  />
-
-  <button onclick="checkPincode()">Check</button>
-
-  <div id="pincodeResult" style="margin-top:8px;font-weight:bold;"></div>
-</section>
-
 <hr>
 
-<!-- =========================
-     CART SECTION
-========================= -->
-<section id="cartSection" style="display:none;">
-  <h3>Your Cart</h3>
-
-  <div id="cartItems"></div>
-
-  <p>
-    Subtotal: ₹<span id="subtotal">0</span>
-  </p>
-
-  <p id="deliveryRow" style="display:none;">
-    Delivery Charge: ₹<span id="deliveryCharge">0</span>
-  </p>
-
-  <p style="font-weight:bold;">
-    Total: ₹<span id="total">0</span>
-  </p>
-
-  <button onclick="placeOrder()">Place Order (WhatsApp)</button>
-</section>
 
 <div class="layout">
 
@@ -81,12 +41,24 @@ gtag('config', 'G-DM97TJNN5G');
 <div class="container"> 
 
 <!-- PINCODE -->
-<div class="box">
-<b>Please enter pincode to check available items and place order</b><br>
-<b>దయచేసి పిన్ కోడ్ ఎంటర్ చేసి, అందుబాటులో ఉన్న వస్తువులను తనిఖీ చేసి ఆర్డర్ చేయండి</b><br><br>
-<input type="number" id="pincode" placeholder="Enter Pincode">
-<p id="pinMsg"></p>
-</div> 
+<!-- =========================
+     PINCODE CHECK SECTION
+========================= -->
+<section style="margin:20px 0;">
+  <h3>Check Delivery Availability</h3>
+
+  <input
+    type="number"
+    id="pincode"
+    placeholder="Enter pincode"
+    oninput="resetAccess()"
+  />
+
+  <button onclick="checkPincode()">Check</button>
+
+  <div id="pincodeResult" style="margin-top:8px;font-weight:bold;"></div>
+</section>
+
 
 <!-- VEHICLE -->
 <div class="box">
@@ -138,26 +110,30 @@ gtag('config', 'G-DM97TJNN5G');
 <p>మరిన్ని వస్తువులు త్వరలో</p>
 </div>
 </div> 
+<hr>
 
-<!-- CART -->
-<div class="cart">
-<h3>🛒 Cart</h3>
-<div id="cartItems">No items</div> 
+<!-- =========================
+     CART SECTION
+========================= -->
+<section id="cartSection" style="display:none;">
+  <h3>Your Cart</h3>
 
-<p>Subtotal: ₹<span id="subtotal">0</span></p>
-<p>Delivery Charge: ₹<span id="deliveryCharge">0</span></p>
-<p id="deliveryMsg"></p>
-<p><b>Total: ₹<span id="total">0</span></b></p> 
+  <div id="cartItems"></div>
 
-<div class="note">
-Thank you for selecting items. Please place order via WhatsApp. Cash on Delivery available.<br><br>
-మీరు వస్తువులు ఎంపిక చేసినందుకు ధన్యవాదాలు. WhatsApp ద్వారా ఆర్డర్ చేయండి.
-</div> 
+  <p>
+    Subtotal: ₹<span id="subtotal">0</span>
+  </p>
 
-<button id="waBtn" class="whatsapp" onclick="shareWA()" disabled>Place Order on WhatsApp</button>
-</div> 
+  <p id="deliveryRow" style="display:none;">
+    Delivery Charge: ₹<span id="deliveryCharge">0</span>
+  </p>
 
-</div> 
+  <p style="font-weight:bold;">
+    Total: ₹<span id="total">0</span>
+  </p>
+
+  <button onclick="placeOrder()">Place Order (WhatsApp)</button>
+</section>
 
 <footer>
 <p><b>Privacy Note:</b> Orders are placed via WhatsApp only. No online payments are collected on this website.</p>
