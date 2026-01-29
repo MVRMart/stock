@@ -108,11 +108,17 @@ function renderCart() {
   document.getElementById("cartItems").innerHTML = html || "No items added";
   document.getElementById("subtotal").innerText = subtotal;
 
-  let deliveryCharge = subtotal >= 1500 ? 0 : 50;
-  document.getElementById("deliveryRow").style.display =
-    subtotal > 0 ? "block" : "none";
-  document.getElementById("deliveryCharge").innerText = deliveryCharge;
-  document.getElementById("total").innerText = subtotal + deliveryCharge;
+  let deliveryCharge = 0;
+
+if (subtotal > 0 && subtotal < 1500) {
+  deliveryCharge = 50;
+}
+
+document.getElementById("deliveryRow").style.display =
+  subtotal > 0 ? "block" : "none";
+
+document.getElementById("deliveryCharge").innerText = deliveryCharge;
+document.getElementById("total").innerText = subtotal + deliveryCharge;
 
   localStorage.setItem("mvrCart", JSON.stringify(cart));
 }
