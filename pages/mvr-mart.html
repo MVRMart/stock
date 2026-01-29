@@ -20,7 +20,6 @@ gtag('config', 'G-DM97TJNN5G');
 <body>
 <hr>
 
-
 <div class="layout">
 
   <!-- LEFT SIDEBAR -->
@@ -32,6 +31,7 @@ gtag('config', 'G-DM97TJNN5G');
 
   <!-- MAIN CONTENT -->
   <main class="content">
+
 <header>
 <h1>MVR Mart</h1>
 <p>Lowest Prices • Best Quality • Cash on Delivery</p>
@@ -40,7 +40,6 @@ gtag('config', 'G-DM97TJNN5G');
 
 <div class="container"> 
 
-<!-- PINCODE -->
 <!-- =========================
      PINCODE CHECK SECTION
 ========================= -->
@@ -58,15 +57,14 @@ gtag('config', 'G-DM97TJNN5G');
   <div id="pincodeResult" style="margin-top:8px;font-weight:bold;"></div>
 </section>
 
-
-<!-- VEHICLE -->
+<!-- VEHICLE STATUS -->
 <div class="box">
-<div class="timeline">
-  <div class="stage" id="stage1">Collecting Orders</div>
-  <div class="stage" id="stage2">Out for Delivery</div>
-  <div class="stage" id="stage3">Delivered</div>
-</div>
-<div id="stageMsg"></div>
+  <div class="timeline">
+    <div class="stage" id="stage1">Collecting Orders</div>
+    <div class="stage" id="stage2">Out for Delivery</div>
+    <div class="stage" id="stage3">Delivered</div>
+  </div>
+  <div id="stageMsg"></div>
 </div> 
 
 <!-- =========================
@@ -77,55 +75,81 @@ gtag('config', 'G-DM97TJNN5G');
 
   <!-- Sugar -->
   <div class="item">
-    <h2>Sugar/చక్కెర</h2>
+    <h2>Sugar / చక్కెర</h2>
     <img src="../images/Sugar.jpeg" onclick="viewImage(this.src)">
     <p class="price">₹40 per kg</p>
+
     Qty:
     <select id="SugarQty">
-      <option value="1">1 kg</option><option value="2">2 kg</option>
-      <option value="3">3 kg</option><option value="4">4 kg</option>
-      <option value="5">5 kg</option><option value="6">6 kg</option>
-      <option value="7">7 kg</option><option value="8">8 kg</option>
-      <option value="9">9 kg</option><option value="10">10 kg</option>
+      <option value="1">1 kg</option>
+      <option value="2">2 kg</option>
+      <option value="3">3 kg</option>
+      <option value="4">4 kg</option>
+      <option value="5">5 kg</option>
+      <option value="6">6 kg</option>
+      <option value="7">7 kg</option>
+      <option value="8">8 kg</option>
+      <option value="9">9 kg</option>
+      <option value="10">10 kg</option>
     </select><br>
-    <button class="addBtn" onclick="addToCart('Sugar/చక్కెర',40)" disabled>
+
+    <button
+      class="addBtn"
+      data-product="Sugar"
+      onclick="addToCart('Sugar/చక్కెర',40)"
+      disabled
+    >
       Add to Cart
     </button>
   </div>
 
   <!-- Reusable Diapers -->
   <div class="item">
-    <h2>Reusable Diapers/పునర్వినియోగ డయాపర్స్</h2>
+    <h2>Reusable Diapers / పునర్వినియోగ డయాపర్స్</h2>
     <img src="../images/ms_6y0zi_512_546541773.jpg" onclick="viewImage(this.src)">
     <p class="price">₹499 per set</p>
+
     Qty:
     <select id="ReusableDiapersQty">
       <option value="1">1 set</option>
       <option value="2">2 sets</option>
       <option value="3">3 sets</option>
     </select><br>
-    <button class="addBtn" onclick="addToCart('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499)" disabled>
+
+    <button
+      class="addBtn"
+      data-product="ReusableDiapers"
+      onclick="addToCart('Reusable Diapers/పునర్వినియోగ డయాపర్స్',499)"
+      disabled
+    >
       Add to Cart
     </button>
   </div>
 
   <!-- Men Shirt -->
   <div class="item">
-    <h2>Men Shirt/పురుషుల చొక్కా</h2>
+    <h2>Men Shirt / పురుషుల చొక్కా</h2>
     <img src="../images/Shirt.jpg" onclick="viewImage(this.src)">
     <p class="price">₹799 per shirt</p>
+
     Qty:
     <select id="MenShirtQty">
       <option value="1">1 shirt</option>
       <option value="2">2 shirts</option>
       <option value="3">3 shirts</option>
     </select><br>
-    <button class="addBtn" onclick="addToCart('Men Shirt/పురుషుల చొక్కా',799)" disabled>
+
+    <button
+      class="addBtn"
+      data-product="MenShirt"
+      onclick="addToCart('Men Shirt/పురుషుల చొక్కా',799)"
+      disabled
+    >
       Add to Cart
     </button>
   </div>
 
-  <!-- Coming Soon / Placeholder Item -->
+  <!-- Coming Soon -->
   <div class="item">
     <h2>Coming Soon / రాబోవు వస్తువులు</h2>
     <img src="../images/coming-soon.png" style="opacity:0.5;">
@@ -134,6 +158,7 @@ gtag('config', 'G-DM97TJNN5G');
   </div>
 
 </div>
+
 <hr>
 
 <!-- =========================
@@ -144,9 +169,7 @@ gtag('config', 'G-DM97TJNN5G');
 
   <div id="cartItems"></div>
 
-  <p>
-    Subtotal: ₹<span id="subtotal">0</span>
-  </p>
+  <p>Subtotal: ₹<span id="subtotal">0</span></p>
 
   <p id="deliveryRow" style="display:none;">
     Delivery Charge: ₹<span id="deliveryCharge">0</span>
@@ -160,13 +183,14 @@ gtag('config', 'G-DM97TJNN5G');
 </section>
 
 <footer>
-<p><b>Privacy Note:</b> Orders are placed via WhatsApp only. No online payments are collected on this website.</p>
-<p>© 2025 MVR Mart</p>
-</footer> 
-  </main>
+  <p><b>Privacy Note:</b> Orders are placed via WhatsApp only. No online payments are collected on this website.</p>
+  <p>© 2025 MVR Mart</p>
+</footer>
 
+  </main>
 </div>
 
-<script src="../js/app.js?v=5"></script>
+<!-- JS -->
+<script src="../js/app.js?v=6"></script>
 </body>
-</html>
+      </html>
