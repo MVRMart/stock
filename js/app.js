@@ -110,13 +110,27 @@ function renderCart() {
 
   let deliveryCharge = 0;
 
+// reset messages
 document.getElementById("freeDeliveryBadge").style.display = "none";
+document.getElementById("freeDeliveryHint").style.display = "none";
 
 if (subtotal > 0 && subtotal < 1500) {
   deliveryCharge = 50;
+
+  let remaining = 1500 - subtotal;
+  document.getElementById("freeDeliveryHint").innerText =
+    `Add ₹${remaining} more to get Free Delivery 🚚`;
+  document.getElementById("freeDeliveryHint").style.display = "block";
+
 } else if (subtotal >= 1500) {
   document.getElementById("freeDeliveryBadge").style.display = "block";
 }
+
+document.getElementById("deliveryRow").style.display =
+  subtotal > 0 ? "block" : "none";
+
+document.getElementById("deliveryCharge").innerText = deliveryCharge;
+document.getElementById("total").innerText = subtotal + deliveryCharge;
 
 document.getElementById("deliveryRow").style.display =
   subtotal > 0 ? "block" : "none";
