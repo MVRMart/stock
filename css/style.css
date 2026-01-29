@@ -84,3 +84,47 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 .addBtn.enabled:hover {
   background: #0d47a1;
 }
+
+/* WhatsApp Order Button */
+.whatsappBtn {
+  background: #25d366;          /* WhatsApp green */
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: 0.2s ease;
+}
+
+.whatsappBtn:hover {
+  background: #1ebe5d;
+}
+
+.whatsappBtn:active {
+  transform: scale(0.97);
+    }
+
+  /* Pincode Check Button */
+.checkBtn {
+  background: #1976d2;      /* blue */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+  transition: 0.2s ease;
+}
+
+.checkBtn:hover {
+  background: #1565c0;
+}
+
+.checkBtn:active {
+  transform: scale(0.97);
+}
