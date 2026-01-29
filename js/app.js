@@ -1,116 +1,155 @@
-/* =========================
-   SERVICEABLE PINCODES
-========================= */
+// ===============================
+// app.js for MVR Mart
+// ===============================
+
+// Cart array, load from localStorage if exists
+let cart = JSON.parse(localStorage.getItem("mvrCart")) || [];
+
+// Define serviceable areas by pincode
 const serviceableAreas = {
-  "500086": ["Manikonda", "Puppalguda"],
-  "500089": ["Narsingi"],
-  "500075": ["Gachibowli"],
-  "500090": ["Kondapur"],
-  "500072": ["Kukatpally"]
-};
+  "500086": [
+    "Kukatpally",
+    "JNTU",
+    "Pragathi Nagar",
+    "KPHB Colony"
+  ],
+     "502102": [
+    "Jangapally",
+    "Siddipet",
+  ]
+};  
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// Initially disable cart until valid pincode
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("cartSection").style.display = "none";
+  document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = true);
+});
 
-/* =========================
-   PINCODE CHECK
-========================= */
+// ===============================
+// Cart Functions
+// ===============================
+
+function addToCart(name, price) {
+  const qtyInput = document.querySelector(`#${name.replace(/\s+/g, "")}Qty`);
+  let qty = qtyInput ? parseInt(qtyInput.value) : 1;
+
+  let item = cart.find(i => i.name === name);
+  if (item) {
+    item.qty += qty;
+  } else {
+    cart.push({ name, price, qty });
+  }
+  renderCart();
+}
+
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty <= 0) cart.splice(index,1);
+  renderCart();
+}
+
+function updateQty(index, val) {
+  cart[index].qty = parseInt(val);
+  if (cart[index].qty <= 0) cart.splice(index,1);
+  renderCart();
+}
+
+function removeItem(index) {
+  cart.splice(index,1);
+  renderCart();
+}
+
+function renderCart() {
+  let html = "";
+  let subtotal = 0;
+
+  cart.forEach((item,i)=>{
+    let amt = item.price * item.qty;
+    subtotal += amt;
+
+    html += `
+      <div class="cart-item">
+        <strong>${item.name}</strong><br>
+        ₹${item.price} × 
+        <input type="number" min="1" value="${item.qty}" onchange="updateQty(${i},this.value)">
+        = ₹${amt}<br>
+        <button onclick="changeQty(${i},1)">+</button>
+        <button onclick="changeQty(${i},-1)">-</button>
+        <button onclick="removeItem(${i})" style="background:#d32f2f;">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartItems").innerHTML = html || "No items added";
+
+  document.getElementById("subtotal").innerText = subtotal;
+
+  // Delivery charge logic
+  let deliveryCharge = subtotal >= 1500 ? 0 : 50;
+  document.getElementById("deliveryRow").style.display = subtotal > 0 ? "block" : "none";
+  document.getElementById("deliveryCharge").innerText = deliveryCharge;
+
+  document.getElementById("total").innerText = subtotal + deliveryCharge;
+
+  localStorage.setItem("mvrCart", JSON.stringify(cart));
+}
+
+// ===============================
+// Pincode Functions
+// ===============================
+
 function checkPincode() {
   const pincode = document.getElementById("pincode").value.trim();
   const result = document.getElementById("pincodeResult");
 
   if (serviceableAreas[pincode]) {
-    result.innerHTML =
-      `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
+    result.innerHTML = `✅ We serve: ${serviceableAreas[pincode].join(", ")}`;
     result.style.color = "green";
 
     document.getElementById("cartSection").style.display = "block";
-    calculateTotal();
+
+    // Enable all Add to Cart buttons
+    document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = false);
+
   } else {
     result.innerHTML = "❌ Delivery not available for this pincode";
     result.style.color = "red";
 
     document.getElementById("cartSection").style.display = "none";
+
+    // Disable all Add to Cart buttons
+    document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = true);
   }
 }
 
-/* Reset access if pincode changes */
 function resetAccess() {
   document.getElementById("cartSection").style.display = "none";
   document.getElementById("pincodeResult").innerHTML = "";
+  document.querySelectorAll(".addBtn").forEach(btn => btn.disabled = true);
 }
 
-/* =========================
-   CART FUNCTIONS
-========================= */
-function addToCart(name, price) {
-  cart.push({ name, price });
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
+// ===============================
+// WhatsApp Order
+// ===============================
 
-function renderCart() {
-  const cartItems = document.getElementById("cartItems");
-  cartItems.innerHTML = "";
-
-  cart.forEach((item, index) => {
-    cartItems.innerHTML += `
-      <div>
-        ${item.name} - ₹${item.price}
-        <button onclick="removeItem(${index})">❌</button>
-      </div>
-    `;
-  });
-
-  calculateTotal();
-}
-
-function removeItem(index) {
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
-
-/* =========================
-   TOTAL + DELIVERY LOGIC
-========================= */
-function calculateTotal() {
-  let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-  let delivery = subtotal > 0 && subtotal < 1500 ? 50 : 0;
-
-  document.getElementById("subtotal").innerText = subtotal;
-
-  if (delivery > 0) {
-    document.getElementById("deliveryRow").style.display = "block";
-    document.getElementById("deliveryCharge").innerText = delivery;
-  } else {
-    document.getElementById("deliveryRow").style.display = "none";
-  }
-
-  document.getElementById("total").innerText = subtotal + delivery;
-}
-
-/* =========================
-   PLACE ORDER
-========================= */
 function placeOrder() {
-  if (cart.length === 0) {
-    alert("Cart is empty");
-    return;
-  }
+  if (cart.length === 0) { alert("Cart is empty"); return; }
 
-  let message = "Order from MVR Mart:\n\n";
-  cart.forEach(item => {
-    message += `${item.name} - ₹${item.price}\n`;
+  const pincode = document.getElementById("pincode").value.trim();
+  if (!serviceableAreas[pincode]) { alert("Enter a valid pincode"); return; }
+
+  let text = `Order from MVR Mart\nPincode: ${pincode}\n\n`;
+  let subtotal = 0;
+
+  cart.forEach((i,n)=>{
+    let amt = i.price * i.qty;
+    subtotal += amt;
+    text += `${n+1}. ${i.name} × ${i.qty} = ₹${amt}\n`;
   });
 
-  message += `\nTotal: ₹${document.getElementById("total").innerText}`;
+  let deliveryCharge = subtotal >= 1500 ? 0 : 50;
+  text += `\nSubtotal: ₹${subtotal}\nDelivery: ₹${deliveryCharge}\nTotal: ₹${subtotal+deliveryCharge}\n\nCash on Delivery available`;
 
-  const whatsappUrl =
-    "https://wa.me/91XXXXXXXXXX?text=" +
-    encodeURIComponent(message);
-
-  window.open(whatsappUrl, "_blank");
+  // Open WhatsApp
+  window.open("https://wa.me/919876543210?text=" + encodeURIComponent(text), "_blank");
 }
-
-/* Load cart on refresh */
-renderCart();
