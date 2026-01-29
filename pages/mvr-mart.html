@@ -44,7 +44,7 @@ gtag('config', 'G-DM97TJNN5G');
      PINCODE CHECK SECTION
 ========================= -->
 <section style="margin:20px 0;">
-  <h3>Check Delivery Availability</h3>
+  <h3>Enter Area Pincode to Check Delivery Availability</h3>
 
   <input
     type="number"
@@ -52,7 +52,7 @@ gtag('config', 'G-DM97TJNN5G');
     placeholder="Enter pincode"
   />
 
-  <button onclick="checkPincode()">Check</button>
+  <button class="checkBtn" onclick="checkPincode()">Check</button>
 
   <div id="pincodeResult" style="margin-top:8px;font-weight:bold;"></div>
 </section>
@@ -174,6 +174,7 @@ gtag('config', 'G-DM97TJNN5G');
   <p id="deliveryRow" style="display:none;">
     Delivery Charge: ₹<span id="deliveryCharge">0</span>
   </p>
+  <p id="freeDeliveryHint" class="warn" style="display:none;"></p>
 <p id="freeDeliveryBadge" class="free" style="display:none;">
   🎉 Free Delivery (Orders ₹1500 & above)
 </p>
@@ -181,7 +182,9 @@ gtag('config', 'G-DM97TJNN5G');
     Total: ₹<span id="total">0</span>
   </p>
 
-  <button onclick="placeOrder()">Place Order (WhatsApp)</button>
+  <button class="whatsappBtn" onclick="placeOrder()">
+  📲 Place Order on WhatsApp
+  </button>
 </section>
 
 <footer>
