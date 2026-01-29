@@ -66,3 +66,21 @@ footer{background:#2e7d32;color:#fff;text-align:center;padding:15px;margin-top:2
 .stage{flex:1;text-align:center;padding:10px;border-bottom:4px solid #ccc}
 .stage.active{border-color:#2e7d32;font-weight:bold}
 </style>
+/* Add to Cart button states */
+.addBtn {
+  background: #bdbdbd;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* When enabled */
+.addBtn.enabled {
+  background: #1976d2; /* Blue */
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.addBtn.enabled:hover {
+  background: #0d47a1;
+}
