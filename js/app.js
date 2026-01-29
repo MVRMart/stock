@@ -26,15 +26,21 @@ document.addEventListener("DOMContentLoaded", () => {
 function lockAccess() {
   accessGranted = false;
   document.getElementById("cartSection").style.display = "none";
-  document.querySelectorAll(".addBtn").forEach(b => b.disabled = true);
-}
 
+  document.querySelectorAll(".addBtn").forEach(b => {
+    b.disabled = true;
+    b.classList.remove("enabled");
+  });
+                                               }
 function unlockAccess() {
   accessGranted = true;
   document.getElementById("cartSection").style.display = "block";
-  document.querySelectorAll(".addBtn").forEach(b => b.disabled = false);
-}
 
+  document.querySelectorAll(".addBtn").forEach(b => {
+    b.disabled = false;
+    b.classList.add("enabled");
+  });
+}
 // ===============================
 // CART FUNCTIONS
 // ===============================
